@@ -1,4 +1,4 @@
-package hu.unideb.inf.homeworkproject;
+package hu.unideb.inf.homeworkproject.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
