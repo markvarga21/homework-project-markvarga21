@@ -19,11 +19,24 @@ public class Validator {
             case VERTICAL ->
                     this.gameModel.getClickedCirclesCount() <= 3
                             && checkColumnInterference(columnToCheck);
-//                            && isFilledBetween(columnToCheck, Orientation.VERTICAL);
             case HORIZONTAL ->
                     this.gameModel.getClickedCirclesCount() <= 3
                             && checkRowInterference(rowToCheck);
-//                            && isFilledBetween(rowToCheck, Orientation.HORIZONTAL);
+            case NOT_CALIBRATED -> true;
+        };
+    }
+
+    public boolean isValidSelection(int rowToCheck, int columnToCheck) {
+        if (this.gameModel.getRemovableNodes().size() == 1) {
+            return this.gameModel.getRemovableNodes().get(0).getColumn() == columnToCheck ||
+                    this.gameModel.getRemovableNodes().get(0).getRow() == rowToCheck;
+        } else return switch (getOrientation()) {
+            case VERTICAL ->
+                    this.gameModel.getClickedCirclesCount() <= 3
+                            && checkColumnInterference(columnToCheck);
+            case HORIZONTAL ->
+                    this.gameModel.getClickedCirclesCount() <= 3
+                            && checkRowInterference(rowToCheck);
             case NOT_CALIBRATED -> true;
         };
     }
@@ -84,6 +97,17 @@ public class Validator {
         final int mainColumn = this.gameModel.getRemovableNodes().get(0).getColumn();
         System.out.println("Main col: " + mainColumn);
         return column == mainColumn;
+    }
+
+    public boolean checkWinner() {
+//        for (int i = 0; i < 4; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                int state = this.gameModel.getGameBoardStatus()[i][j];
+//                if (state == 1 && isValidSelection(i, j)) return true;
+//            }
+//        }
+//        return false;
+        return false;
     }
 
 }

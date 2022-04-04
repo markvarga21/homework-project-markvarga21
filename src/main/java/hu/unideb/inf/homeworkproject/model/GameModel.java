@@ -67,11 +67,6 @@ public non-sealed class GameModel implements IGameModel {
         this.removableNodes.clear();
     }
 
-    @Override
-    public boolean checkWinner() {
-        return IGameModel.super.checkWinner();
-    }
-
     public String getWinner() {
         return switch (this.whosComingNext) {
             case -1 -> this.player1;

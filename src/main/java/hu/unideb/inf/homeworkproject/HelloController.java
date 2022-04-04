@@ -104,7 +104,7 @@ public class HelloController implements Initializable {
 
     @FXML
     public void isPlayerDone(ActionEvent e) {
-        if (!this.gameModel.checkWinner()) {
+        if (!this.validator.checkWinner()) {
             if (this.validator.isValidSelection()) {
                 removeNodes();
                 this.gameModel.switchPlayer();
@@ -119,6 +119,9 @@ public class HelloController implements Initializable {
 //        imgView.setX(0);
 //        imgView.setY(0);
 //        this.mainPane.getChildren().add(imgView);
+
+        // we flush it before we add further nodes to it
+        this.gameModel.clearPrev();
 
         for (var node : this.gameModel.getRemovableNodes()) {
             System.out.println("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
@@ -145,12 +148,17 @@ public class HelloController implements Initializable {
 
     @FXML
     public void undoButtonClick() {
-        System.out.println("Undo...");
-        System.out.println("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
-        putBackNodes();
-        this.gameModel.clearPrev();
-        this.gameModel.switchPlayer();
-        System.out.println("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
+        if (this.gameModel.getPrevNodes().size() > 0) {
+            System.out.println("Undo...");
+            System.out.println("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
+
+            putBackNodes();
+
+            // clearing the remained nodes in prevNodes
+            this.gameModel.clearPrev();
+            this.gameModel.switchPlayer();
+            System.out.println("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
+        } else this.gameModel.alert("You cannot undo more than one steps!");
     }
 
     @FXML
@@ -162,6 +170,10 @@ public class HelloController implements Initializable {
         var nodesToPutBack = this.gameModel.getPrevNodes();
         for (var node : nodesToPutBack) {
             this.gameBoard.add(node.getNode(), node.getColumn(), node.getRow());
+
+            // Remove highlighting
+            Circle temp = (Circle) node.getNode();
+            temp.setStrokeWidth(0);
         }
     }
 

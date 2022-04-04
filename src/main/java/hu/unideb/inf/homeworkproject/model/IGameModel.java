@@ -4,5 +4,4 @@ public sealed interface IGameModel permits GameModel {
     default void alert(String message) {
         System.out.println("No message.");
     }
-    default boolean checkWinner() { return false; }
 }
