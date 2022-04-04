@@ -5,7 +5,7 @@ import javafx.scene.control.Alert;
 
 import java.util.*;
 
-public non-sealed class GameModel implements IGameModel {
+public class GameModel {
     private int clickedCirclesCount;
     private ArrayList<CircleNode> removableNodes;
     // for going back
@@ -58,7 +58,6 @@ public non-sealed class GameModel implements IGameModel {
         return gameBoardStatus;
     }
 
-    @Override
     public void alert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(null);
