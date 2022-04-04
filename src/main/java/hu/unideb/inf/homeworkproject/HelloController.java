@@ -4,6 +4,7 @@ import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
 import hu.unideb.inf.homeworkproject.view.ImageManager;
+import hu.unideb.inf.homeworkproject.view.StyleManager;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -41,7 +42,6 @@ public class HelloController implements Initializable {
     private final Color player2Color = Color.RED; // Anna
     private final int highlightStrokeWidth = 3;
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameBoardCircles = new Circle[4][4];
@@ -50,7 +50,7 @@ public class HelloController implements Initializable {
         this.validator = new Validator(this.gameModel);
         this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
 
-        this.gameBoard.setStyle("-fx-border-width: 2; -fx-border-color: black; -fx-effect: dropshadow(three-pass-box, green, 10, 0, 0, 0);");
+        StyleManager.styleGameBoard(this.gameBoard);
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -81,28 +81,12 @@ public class HelloController implements Initializable {
             if (this.validator.isValidSelection(node)) {
                 if (this.gameModel.addRemovableNode(node)) {
                     // Highlighting
-                    highlightNode(this.gameModel.getWhosComingNext(), clickedNode);
+                    StyleManager.highlightNode(this.gameModel.getWhosComingNext(), clickedNode, this.player1Color, this.player2Color);
                 } else {
                     // Remove highlighting
-                    Circle temp = (Circle) clickedNode;
-                    temp.setStrokeWidth(0);
+                    StyleManager.removeHighlight(clickedNode);
                 }
             } else this.gameModel.alert("Invalid selection!");
-        }
-    }
-
-    private void highlightNode(int playerIndex, Node node) {
-        switch (playerIndex) {
-            case 1 -> {
-                Circle player1Circle = (Circle) node;
-                player1Circle.setStrokeWidth(this.highlightStrokeWidth);
-                player1Circle.setStroke(this.player1Color);
-            }
-            case -1 -> {
-                Circle player2Circle = (Circle) node;
-                player2Circle.setStrokeWidth(this.highlightStrokeWidth);
-                player2Circle.setStroke(this.player2Color);
-            }
         }
     }
 
