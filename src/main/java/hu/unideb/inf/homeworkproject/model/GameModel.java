@@ -1,5 +1,6 @@
 package hu.unideb.inf.homeworkproject.model;
 
+import hu.unideb.inf.homeworkproject.server.Client;
 import javafx.scene.control.Alert;
 
 import java.util.*;
@@ -21,12 +22,15 @@ public non-sealed class GameModel implements IGameModel {
     private int player1Score;
     private int player2Score;
 
+    private Client client;
+
     public GameModel() {
         this.removableNodes = new ArrayList<>();
         this.clickedCirclesCount = 0;
         this.gameBoardStatus = new int[4][4];
         this.prevNodes = new ArrayList<>();
         this.stepCount = 0;
+        this.client = new Client(this);
     }
 
     public boolean setStatus(int row, int column, int value) {
@@ -43,6 +47,10 @@ public non-sealed class GameModel implements IGameModel {
             this.gameBoardStatus[row][column] = value;
             return true;
         }
+    }
+
+    public int[][] getGameBoardStatus() {
+        return gameBoardStatus;
     }
 
     @Override
@@ -110,5 +118,9 @@ public non-sealed class GameModel implements IGameModel {
 
     public ArrayList<CircleNode> getPrevNodes() {
         return prevNodes;
+    }
+
+    public void save() {
+        this.client.saveGame();
     }
 }

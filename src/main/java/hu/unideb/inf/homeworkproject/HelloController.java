@@ -72,6 +72,8 @@ public class HelloController implements Initializable {
             Integer rowIndex = GridPane.getRowIndex(clickedNode);
             CircleNode node = new CircleNode(clickedNode, rowIndex, colIndex);
 
+            System.out.println("Clicked on: " + clickedNode.getId() + ", on row: " + rowIndex + ", column: " + colIndex);
+
             if (this.validator.isValidSelection(node)) {
                 if (this.gameModel.addRemovableNode(node)) {
                     // Highlighting
@@ -119,6 +121,7 @@ public class HelloController implements Initializable {
 //        this.mainPane.getChildren().add(imgView);
 
         for (var node : this.gameModel.getRemovableNodes()) {
+            System.out.println("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
             this.gameBoard.getChildren().remove(node.getNode());
 
             final int columnIndex = node.getColumn();
@@ -148,6 +151,11 @@ public class HelloController implements Initializable {
         this.gameModel.clearPrev();
         this.gameModel.switchPlayer();
         System.out.println("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
+    }
+
+    @FXML
+    public void saveButtonClick() {
+        this.gameModel.save();
     }
 
     private void putBackNodes() {

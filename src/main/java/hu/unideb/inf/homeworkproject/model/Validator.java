@@ -38,16 +38,28 @@ public class Validator {
             case VERTICAL -> {
                 int maxRow = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getRow).max().getAsInt();
                 int minRow = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getRow).min().getAsInt();
+
                 int wannaBeSum = IntStream.range(minRow, maxRow).sum() + maxRow; // bcs the second one is exclusive
+
                 int testSum = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getRow).sum();
+
                 System.out.println("minRow: " + minRow + ", maxRow: " + maxRow + ", wannaBeSum: " + wannaBeSum + ", testSum: " + testSum);
+                System.out.println("Rows: ");
+                this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getRow).forEach(System.out::println);
+
                 yield testSum == wannaBeSum;
             }
             case HORIZONTAL -> {
                 int maxColumn = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getColumn).max().getAsInt();
                 int minColumn = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getColumn).min().getAsInt();
-                int wannaBeSum = IntStream.range(minColumn, maxColumn).sum();
-                int testSum = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getColumn).sum() + maxColumn;
+
+                int wannaBeSum = IntStream.range(minColumn, maxColumn).sum() + maxColumn;
+
+                int testSum = this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getColumn).sum();
+
+                System.out.println("Columns: ");
+                this.gameModel.getRemovableNodes().stream().mapToInt(CircleNode::getColumn).forEach(System.out::println);
+
                 System.out.println("minColumn: " + minColumn + ", maxColumn: " + maxColumn + ", wannaBeSum: " + wannaBeSum + ", testSum: " + testSum);
                 yield testSum == wannaBeSum;
             }
