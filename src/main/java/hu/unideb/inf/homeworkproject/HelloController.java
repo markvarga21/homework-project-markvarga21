@@ -164,4 +164,12 @@ public class HelloController implements Initializable {
         }
     }
 
+    @FXML
+    public void onMouseEnter(MouseEvent event) {
+        Node clickedNode = event.getPickResult().getIntersectedNode();
+        if (clickedNode != gameBoard) {
+            StyleManager.hoverStyle(clickedNode);
+        }
+    }
+
 }
