@@ -100,14 +100,14 @@ public class Validator {
     }
 
     public boolean checkWinner() {
-//        for (int i = 0; i < 4; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                int state = this.gameModel.getGameBoardStatus()[i][j];
-//                if (state == 1 && isValidSelection(i, j)) return true;
-//            }
-//        }
-//        return false;
-        return false;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                // ha meg van legalabb egy darab ko a palyan, addig lehet jatszani, vagyis nincsen gyoztesunk
+                if (this.gameModel.getGameBoardStatus()[i][j] == 1)
+                    return false;
+            }
+        }
+        return true;
     }
 
 }

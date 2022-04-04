@@ -14,8 +14,9 @@ public non-sealed class GameModel implements IGameModel {
 
     private int[][] gameBoardStatus;
 
-    private String player1; // nr. 1
-    private String player2; // nr. -1
+    // REMOVE, this is HARD CODED
+    private String player1Name = "Aladar"; // nr. 1
+    private String player2Name = "Anna"; // nr. -1
 
     private int whosComingNext = -1;
 
@@ -31,6 +32,10 @@ public non-sealed class GameModel implements IGameModel {
         this.prevNodes = new ArrayList<>();
         this.stepCount = 0;
         this.client = new Client(this);
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     public boolean setStatus(int row, int column, int value) {
@@ -69,8 +74,8 @@ public non-sealed class GameModel implements IGameModel {
 
     public String getWinner() {
         return switch (this.whosComingNext) {
-            case -1 -> this.player1;
-            case 1 -> this.player2;
+            case -1 -> this.player1Name;
+            case 1 -> this.player2Name;
             default -> "NoOne";
         };
     }

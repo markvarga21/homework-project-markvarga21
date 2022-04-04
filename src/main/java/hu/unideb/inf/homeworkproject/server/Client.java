@@ -17,4 +17,8 @@ public class Client {
                 game += this.gameModel.getGameBoardStatus()[i][j];
         System.out.println(game);
     }
+
+    public void updateLeaderBoard(String playerName) {
+        System.out.println("Updating player score in SQL server leaderboard!");
+    }
 }

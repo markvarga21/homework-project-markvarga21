@@ -4,7 +4,6 @@ import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
 import hu.unideb.inf.homeworkproject.view.ImageManager;
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -19,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,9 +37,10 @@ public class HelloController implements Initializable {
     private Validator validator;
     private ImageManager imageManager;
 
-    private final Color player1Color = Color.BLACK;
-    private final Color player2Color = Color.RED;
+    private final Color player1Color = Color.BLACK; // Aladar
+    private final Color player2Color = Color.RED; // Anna
     private final int highlightStrokeWidth = 3;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -109,17 +108,19 @@ public class HelloController implements Initializable {
 
     @FXML
     public void isPlayerDone(ActionEvent e) {
-        if (!this.validator.checkWinner()) {
-            if (this.validator.isValidSelection()) {
-                removeNodes();
-                this.gameModel.switchPlayer();
-                this.gameModel.clearDeletions();
-            } else this.gameModel.alert("Invalid selection!");
-        } else displayWinner();
+        if (this.validator.isValidSelection()) {
+            removeNodes();
+            this.gameModel.switchPlayer();
+            this.gameModel.clearDeletions();
+        } else this.gameModel.alert("Invalid selection!");
+        if (this.validator.checkWinner()) {
+            displayWinner();
+            this.gameModel.getClient().updateLeaderBoard(this.gameModel.getWinner());
+        }
     }
 
     private void removeNodes() {
-        this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
+//        this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
 
         // we flush it before we add further nodes to it
         this.gameModel.clearPrev();
