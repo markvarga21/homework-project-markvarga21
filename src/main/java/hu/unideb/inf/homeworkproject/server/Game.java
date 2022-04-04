@@ -8,13 +8,15 @@ public class Game {
     private String player1Name;
     private String player2Name;
     private String gameBoard;
+    private int whoWasGoingNext;
 
-    public Game(String gameID, Date dateWhenPlayed, String player1Name, String player2Name, String gameBoard) {
+    public Game(String gameID, Date dateWhenPlayed, String player1Name, String player2Name, String gameBoard, int whoWasGoingNext) {
         this.gameID = gameID;
         this.dateWhenPlayed = dateWhenPlayed;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
         this.gameBoard = gameBoard;
+        this.whoWasGoingNext = whoWasGoingNext;
     }
 
     public String getGameID() {

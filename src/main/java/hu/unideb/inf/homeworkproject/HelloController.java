@@ -3,6 +3,8 @@ package hu.unideb.inf.homeworkproject;
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
+import hu.unideb.inf.homeworkproject.view.ImageManager;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -17,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +37,7 @@ public class HelloController implements Initializable {
 
     private GameModel gameModel;
     private Validator validator;
+    private ImageManager imageManager;
 
     private final Color player1Color = Color.BLACK;
     private final Color player2Color = Color.RED;
@@ -45,6 +49,7 @@ public class HelloController implements Initializable {
         this.nodeArray = new Node[4][4];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
+        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
 
         this.gameBoard.setStyle("-fx-border-width: 2; -fx-border-color: black; -fx-effect: dropshadow(three-pass-box, green, 10, 0, 0, 0);");
 
@@ -114,11 +119,7 @@ public class HelloController implements Initializable {
     }
 
     private void removeNodes() {
-//        Image image = new Image("resources/images/kezes_proba1.gif");
-//        ImageView imgView = new ImageView(image);
-//        imgView.setX(0);
-//        imgView.setY(0);
-//        this.mainPane.getChildren().add(imgView);
+        this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
 
         // we flush it before we add further nodes to it
         this.gameModel.clearPrev();
@@ -134,6 +135,7 @@ public class HelloController implements Initializable {
 
             this.gameModel.addPrevNode(node);
         }
+        // do I need this?
 //        this.mainPane.getChildren().remove(imgView);
     }
 
