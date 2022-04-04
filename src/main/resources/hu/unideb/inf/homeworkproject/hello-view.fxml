@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo3.HelloController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.unideb.inf.homeworkproject.HelloController">
     <children>
         <GridPane fx:id="gameBoard" alignment="CENTER" gridLinesVisible="true" layoutX="50.0" layoutY="36.0" onMouseClicked="#onButtonClick" prefHeight="300.0" prefWidth="300.0">
             <columnConstraints>
@@ -25,5 +25,6 @@
         </GridPane>
         <Button fx:id="doneButton" layoutX="174.0" layoutY="350.0" mnemonicParsing="false" onAction="#isPlayerDone" text="Done" />
         <ImageView fx:id="imageHolder" fitHeight="93.0" fitWidth="105.0" layoutX="270.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+        <Button fx:id="undoButton" layoutX="298.0" layoutY="350.0" mnemonicParsing="false" onAction="#undoButtonClick" text="Undo" />
     </children>
 </AnchorPane>

@@ -1,4 +1,4 @@
-package hu.unideb.inf.homeworkproject.controller;
+package hu.unideb.inf.homeworkproject;
 
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
