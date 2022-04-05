@@ -10,7 +10,6 @@ public class GameModel {
     private ArrayList<CircleNode> removableNodes;
     // for going back
     private ArrayList<CircleNode> prevNodes;
-    private int stepCount;
 
     private int[][] gameBoardStatus;
 
@@ -30,7 +29,6 @@ public class GameModel {
         this.clickedCirclesCount = 0;
         this.gameBoardStatus = new int[4][4];
         this.prevNodes = new ArrayList<>();
-        this.stepCount = 0;
         this.client = new Client(this);
     }
 

@@ -48,7 +48,7 @@ public class HelloController implements Initializable {
         this.nodeArray = new Node[4][4];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
-        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
+//        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
 
         StyleManager.styleGameBoard(this.gameBoard);
 
@@ -91,7 +91,7 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    public void isPlayerDone(ActionEvent e) {
+    public void isPlayerDone(ActionEvent e) throws InterruptedException {
         if (this.validator.isValidSelection()) {
             removeNodes();
             this.gameModel.switchPlayer();
@@ -103,8 +103,11 @@ public class HelloController implements Initializable {
         }
     }
 
-    private void removeNodes() {
+    private void removeNodes() throws InterruptedException {
 //        this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
+//        this.imageManager = new ImageManager(this.imageHolder, this.mainPane, "D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
+//        this.imageManager.start();
+//        Thread.sleep(2000);
 
         // we flush it before we add further nodes to it
         this.gameModel.clearPrev();
