@@ -44,16 +44,16 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.gameBoardCircles = new Circle[4][4];
-        this.nodeArray = new Node[4][4];
+        this.gameBoardCircles = new Circle[GameModel.GAMEBOARD_SIZE][GameModel.GAMEBOARD_SIZE];
+        this.nodeArray = new Node[GameModel.GAMEBOARD_SIZE][GameModel.GAMEBOARD_SIZE];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
 //        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
 
         StyleManager.styleGameBoard(this.gameBoard);
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < GameModel.GAMEBOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAMEBOARD_SIZE; j++) {
                 Circle circle = new Circle(10, Color.SKYBLUE);
                 circle.setRadius(25);
 

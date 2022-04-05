@@ -7,11 +7,13 @@ import java.util.*;
 
 public class GameModel {
     private int clickedCirclesCount;
+    public static final int MAX_NUMBER_OF_CIRCLES_TO_CLICK = 3; // why not 4?
     private ArrayList<CircleNode> removableNodes;
     // for going back
     private ArrayList<CircleNode> prevNodes;
 
     private int[][] gameBoardStatus;
+    public static final int GAMEBOARD_SIZE = 4;
 
     // REMOVE, this is HARD CODED
     private String player1Name = "Aladar"; // nr. 1
@@ -27,7 +29,7 @@ public class GameModel {
     public GameModel() {
         this.removableNodes = new ArrayList<>();
         this.clickedCirclesCount = 0;
-        this.gameBoardStatus = new int[4][4];
+        this.gameBoardStatus = new int[GAMEBOARD_SIZE][GAMEBOARD_SIZE];
         this.prevNodes = new ArrayList<>();
         this.client = new Client(this);
     }
