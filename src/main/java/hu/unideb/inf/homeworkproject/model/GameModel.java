@@ -3,29 +3,85 @@ package hu.unideb.inf.homeworkproject.model;
 import hu.unideb.inf.homeworkproject.server.Client;
 import javafx.scene.control.Alert;
 
-import java.util.*;
+import java.util.ArrayList;
 
+/**
+ * The main class for the mode of the game. It handles many data manipulations,
+ * has many methods which are called outside this class, in order to perform
+ * some actions.
+ */
 public class GameModel {
+    /**
+     * The number of {@code CircleNode}s already clicked.
+     */
     private int clickedCirclesCount;
+
+    /**
+     * The maximum number of {@code CircleNode}s we can select at once.
+     */
     public static final int MAX_NUMBER_OF_CIRCLES_TO_CLICK = 3; // why not 4?
+
+    /**
+     * It stores the {@code CircleNodes}s which tend to be removed after
+     * the player is finished.
+     */
     private ArrayList<CircleNode> removableNodes;
-    // for going back
+
+    /**
+     * It stores the {@code CircleNodes}s for one step, for making able
+     * to undo a step.
+      */
     private ArrayList<CircleNode> prevNodes;
 
+    /**
+     * It stores the status of each cell:
+     * 0 if it is empty, and 1 if it occupied
+     * by a {@code CircleNode}. It is used to
+     * save a game state.
+     */
     private int[][] gameBoardStatus;
+
+    /**
+     * The size of our {@code gameBoard}.
+     */
     public static final int GAMEBOARD_SIZE = 4;
 
-    // REMOVE, this is HARD CODED
-    private String player1Name = "Aladar"; // nr. 1
-    private String player2Name = "Anna"; // nr. -1
+    /**
+     * The name of the first player, which is indicated
+     * with the value of 1 in the program.
+     */
+    private String player1Name = "Aladar";
 
+    /**
+     * The name of the second player, which is indicated
+     * with the value of -1 in the program.
+     */
+    private String player2Name = "Anna";
+
+    /**
+     * Handles who is coming next.
+     */
     private int whosComingNext = -1;
 
+    /**
+     * Stores the first players score.
+     */
     private int player1Score;
+
+    /**
+     * Stores the second players score.
+     */
     private int player2Score;
 
+    /**
+     * Represents the client which operates with the {@code Server}.
+     */
     private Client client;
 
+    /**
+     * An empty constructor, which initializes the classes
+     * field with some default values.
+     */
     public GameModel() {
         this.removableNodes = new ArrayList<>();
         this.clickedCirclesCount = 0;
@@ -34,15 +90,18 @@ public class GameModel {
         this.client = new Client(this);
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public boolean setStatus(int row, int column, int value) {
-        if (row < 0 || row > 4) {
+    /**
+     * It sets the value of a field in the {@code gameBoardStatus}.
+     * @param row the row to which we want to set the value.
+     * @param column the column to which we want to set the value.
+     * @param value the value which we want to set to a column/row.
+     * @return {@code true} if it succeeds, and {@code false} if not.
+     */
+    public boolean setStatus(final int row, final int column, final int value) {
+        if (row < 0 || row > GAMEBOARD_SIZE) {
             alert("Wrong row number when invoking setStatus() method!");
             return false;
-        } else if (column < 0 || column > 4) {
+        } else if (column < 0 || column > GAMEBOARD_SIZE) {
             alert("Wrong column number when invoking setStatus() method!");
             return false;
         } else if (value != 1 && value != 0) {
@@ -54,11 +113,12 @@ public class GameModel {
         }
     }
 
-    public int[][] getGameBoardStatus() {
-        return gameBoardStatus;
-    }
-
-    public void alert(String message) {
+    /**
+     * Alerts the user of a certain problem/message passed
+     * by the {@code message} parameter.
+     * @param message the message the alert dialogue displays.
+     */
+    public void alert(final String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(null);
         alert.setHeaderText(null);
@@ -66,28 +126,29 @@ public class GameModel {
         alert.showAndWait();
     }
 
+    /**
+     * Clears the {@code removableNodes} for further correct additions.
+     * ALso resets to 0 the {@code clickedCirclesCount}.
+     */
     public void clearDeletions() {
         this.clickedCirclesCount = 0;
         this.removableNodes.clear();
     }
 
-    public String getWinner() {
-        return switch (this.whosComingNext) {
-            case -1 -> this.player1Name;
-            case 1 -> this.player2Name;
-            default -> "NoOne";
-        };
+    /**
+     * Switches who is coming next.
+     */
+    public void switchPlayer() {
+        this.whosComingNext *= -1;
     }
 
-    public ArrayList<CircleNode> getRemovableNodes() {
-        return removableNodes;
-    }
-
-    public int getWhosComingNext() {
-        return whosComingNext;
-    }
-
-    public boolean addRemovableNode(CircleNode node) {
+    /**
+     * Adds a {@code CircleNode} to {@code removableNodes}, which will be
+     * removed if the player is done selecting.
+     * @param node the {@code CircleNode} we want to remove in the future.
+     * @return {@code true} if it succeeds, and {@code false} if not.
+     */
+    public boolean addRemovableNode(final CircleNode node) {
         if (!this.removableNodes.contains(node)) {
             this.removableNodes.add(node);
             this.clickedCirclesCount++;
@@ -99,27 +160,92 @@ public class GameModel {
         }
     }
 
-    public int getClickedCirclesCount() {
-        return clickedCirclesCount;
-    }
-
-    public void switchPlayer() {
-        this.whosComingNext *= -1;
-    }
-
-    public boolean addPrevNode(CircleNode node) {
+    /**
+     * Adds nodes to the {@code prevNodes} too, in order to be able
+     * to undo a step, and replace them to the board.
+     * @param node the {@code CircleNode} we want to undo in the future.
+     * @return {@code true} if it succeeds, and {@code false} if not.
+     */
+    public boolean addPrevNode(final CircleNode node) {
         return this.prevNodes.add(node);
     }
 
+    /**
+     * Cleares the nodes in {@code prevNodes}.
+     */
     public void clearPrev() {
         this.prevNodes.clear();
     }
 
-    public ArrayList<CircleNode> getPrevNodes() {
-        return prevNodes;
-    }
-
+    /**
+     * Invokes the {@code client}s {@code saveGame()} method,
+     * which saves the game in the database.
+     */
     public void save() {
         this.client.saveGame();
+    }
+
+    /**
+     * Getter method for a {@code String} representing the winner.
+     * @return the winner.
+     */
+    public String getWinner() {
+        return switch (this.whosComingNext) {
+            case -1 -> this.player1Name;
+            case 1 -> this.player2Name;
+            default -> "NoOne";
+        };
+    }
+
+    /**
+     * Getter method for the {@code gameBoardStatus}, for further usages
+     * outside this class.
+     * @return a 2D array representing the {@code gameBoard} status.
+     */
+    public int[][] getGameBoardStatus() {
+        return this.gameBoardStatus;
+    }
+
+    /**
+     * Getter method for the {@code removableNodes} for further usages
+     * outside this class.
+     * @return an {@code ArrayList} containing {@code CircleNode}s,
+     * representing the {@code removableNodes}.
+     */
+    public ArrayList<CircleNode> getRemovableNodes() {
+        return this.removableNodes;
+    }
+
+    /**
+     * Getter method for the index of upcoming player.
+     * @return 1 if it is {@code player1},
+     * and -1 if it is {@code player2}.
+     */
+    public int getWhosComingNext() {
+        return this.whosComingNext;
+    }
+
+    /**
+     * Getter method for the {@code client}.
+     * @return the {@code client}.
+     */
+    public Client getClient() {
+        return this.client;
+    }
+
+    /**
+     * Getter for the {@code clickedCirclesCount}.
+     * @return the number of {@code CircleNodes} clicked.
+     */
+    public int getClickedCirclesCount() {
+        return clickedCirclesCount;
+    }
+
+    /**
+     * Getter for {@code prevNoeds}.
+     * @return an {@code ArrayList} containing {@code CircleNode}s.
+     */
+    public ArrayList<CircleNode> getPrevNodes() {
+        return prevNodes;
     }
 }
