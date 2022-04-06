@@ -187,6 +187,19 @@ public class GameModel {
         this.client.saveGame();
     }
 
+    public void startNewGame() {
+        System.out.println("Starting new game...");
+        // we should prompt the user first...
+        this.clickedCirclesCount = 0;
+        this.prevNodes.clear();
+        this.removableNodes.clear();
+        for (int i = 0; i < GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GAME_BOARD_SIZE; j++) {
+                this.gameBoardStatus[i][j] = 1;
+            }
+        }
+    }
+
     public void setPlayer1Name(String player1Name) {
         this.player1Name = player1Name;
     }

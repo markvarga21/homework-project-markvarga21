@@ -48,6 +48,8 @@ public class LoginController implements Initializable {
         this.gameController.getGameModel().setPlayer2Name(this.player2NameTextField.getText());
 
         // and displaying/switching to scene2
+        // extracting the source of the node (which is casted), and than casting to stange, and after this
+        // getting window.
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);

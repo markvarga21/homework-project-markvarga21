@@ -5,6 +5,7 @@ import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
 import hu.unideb.inf.homeworkproject.view.ImageManager;
 import hu.unideb.inf.homeworkproject.view.StyleManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,7 +57,10 @@ public class GameController implements Initializable {
         this.player2Color = Color.BLACK;
 
         StyleManager.styleGameBoard(this.gameBoard);
+        fillGameBoard();
+    }
 
+    private void fillGameBoard() {
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
                 Circle circle = new Circle(10, Color.SKYBLUE);
@@ -187,8 +192,27 @@ public class GameController implements Initializable {
     }
 
     @FXML
-    public void saveButtonClick() {
+    public void saveGame() {
         this.gameModel.save();
+    }
+
+    @FXML
+    public void newGame() {
+        this.gameModel.startNewGame();
+        fillGameBoard();
+    }
+
+    @FXML
+    public void loadGame() {
+        System.out.println("Loading game...");
+    }
+
+    @FXML
+    public void exitGame(ActionEvent event) {
+        System.out.println("Exiting game...");
+//        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//        stage.close();
+        Platform.exit();
     }
 
     private void putBackNodes() {
