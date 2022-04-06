@@ -44,7 +44,7 @@ public class GameModel {
     /**
      * The size of our {@code gameBoard}.
      */
-    public static final int GAMEBOARD_SIZE = 4;
+    public static final int GAME_BOARD_SIZE = 4;
 
     /**
      * The name of the first player, which is indicated
@@ -85,7 +85,7 @@ public class GameModel {
     public GameModel() {
         this.removableNodes = new ArrayList<>();
         this.clickedCirclesCount = 0;
-        this.gameBoardStatus = new int[GAMEBOARD_SIZE][GAMEBOARD_SIZE];
+        this.gameBoardStatus = new int[GAME_BOARD_SIZE][GAME_BOARD_SIZE];
         this.prevNodes = new ArrayList<>();
         this.client = new Client(this);
     }
@@ -98,10 +98,10 @@ public class GameModel {
      * @return {@code true} if it succeeds, and {@code false} if not.
      */
     public boolean setStatus(final int row, final int column, final int value) {
-        if (row < 0 || row > GAMEBOARD_SIZE) {
+        if (row < 0 || row > GAME_BOARD_SIZE) {
             alert("Wrong row number when invoking setStatus() method!");
             return false;
-        } else if (column < 0 || column > GAMEBOARD_SIZE) {
+        } else if (column < 0 || column > GAME_BOARD_SIZE) {
             alert("Wrong column number when invoking setStatus() method!");
             return false;
         } else if (value != 1 && value != 0) {

@@ -177,8 +177,8 @@ public class Validator {
      * @return {@code true} if there is no possible move left.
      */
     public boolean checkWinner() {
-        for (int i = 0; i < GameModel.GAMEBOARD_SIZE; i++) {
-            for (int j = 0; j < GameModel.GAMEBOARD_SIZE; j++) {
+        for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
                 if (this.gameModel.getGameBoardStatus()[i][j] == 1) {
                     return false;
                 }

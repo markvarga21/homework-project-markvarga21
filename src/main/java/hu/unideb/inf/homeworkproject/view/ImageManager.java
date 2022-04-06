@@ -15,14 +15,13 @@ public class ImageManager extends Thread {
     private AnchorPane mainPane;
     private String path;
 
-    public ImageManager(ImageView imageView, AnchorPane mainPane, String path) {
+    public ImageManager(ImageView imageView, AnchorPane mainPane) {
         this.imageView = imageView;
         this.mainPane = mainPane;
         this.path = path;
     }
 
-    @Override
-    public void run() {
+    public void playGif(final String path) {
         Image image = new Image(path);
         ImageView imgView = new ImageView(image);
         imgView.setX(0);

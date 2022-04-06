@@ -44,16 +44,16 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.gameBoardCircles = new Circle[GameModel.GAMEBOARD_SIZE][GameModel.GAMEBOARD_SIZE];
-        this.nodeArray = new Node[GameModel.GAMEBOARD_SIZE][GameModel.GAMEBOARD_SIZE];
+        this.gameBoardCircles = new Circle[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
+        this.nodeArray = new Node[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
-//        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
+        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
 
         StyleManager.styleGameBoard(this.gameBoard);
 
-        for (int i = 0; i < GameModel.GAMEBOARD_SIZE; i++) {
-            for (int j = 0; j < GameModel.GAMEBOARD_SIZE; j++) {
+        for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
                 Circle circle = new Circle(10, Color.SKYBLUE);
                 circle.setRadius(25);
 
@@ -91,27 +91,56 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    public void isPlayerDone(ActionEvent e) throws InterruptedException {
+    public void isPlayerDone(final ActionEvent e) {
         if (this.validator.isValidSelection()) {
             removeNodes();
             this.gameModel.switchPlayer();
             this.gameModel.clearDeletions();
-        } else this.gameModel.alert("Invalid selection!");
+        } else {
+            this.gameModel.alert("Invalid selection!");
+        }
         if (this.validator.checkWinner()) {
             displayWinner();
             this.gameModel.getClient().updateLeaderBoard(this.gameModel.getWinner());
         }
     }
+    
+//    private Timeline createTimeLine(Duration duration, String message) {
+//        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(final ActionEvent event) {
+//                System.out.println("Delayed remove...");
+//                System.out.println(message);
+////                gameModel.clearPrev();
+////
+////                for (var node : gameModel.getRemovableNodes()) {
+////                    System.out.println("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
+////                    gameBoard.getChildren().remove(node.getNode());
+////
+////                    final int columnIndex = node.getColumn();
+////                    final int rowIndex = node.getRow();
+////
+////                    gameModel.setStatus(rowIndex, columnIndex, 0);
+////
+////                    gameModel.addPrevNode(node);
+////                }
+//                System.out.println("Delayed remove done.");
+//            }
+//        }));
+//        return timeline;
+//    }
 
-    private void removeNodes() throws InterruptedException {
+    private void removeNodes() {
 //        this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
 //        this.imageManager = new ImageManager(this.imageHolder, this.mainPane, "D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
 //        this.imageManager.start();
 //        Thread.sleep(2000);
+//
+//        Timeline timeline = createTimeLine(Duration.seconds(2), "LOL");
+//        timeline.play();
 
-        // we flush it before we add further nodes to it
-        this.gameModel.clearPrev();
-
+//        this.gameModel.clearPrev();
+//
         for (var node : this.gameModel.getRemovableNodes()) {
             System.out.println("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
             this.gameBoard.getChildren().remove(node.getNode());
@@ -122,9 +151,11 @@ public class HelloController implements Initializable {
             this.gameModel.setStatus(rowIndex, columnIndex, 0);
 
             this.gameModel.addPrevNode(node);
-        }
-        // do I need this?
+
+            // we flush it before we add further nodes to it
+            // do I need this?
 //        this.mainPane.getChildren().remove(imgView);
+        }
     }
 
     private void displayWinner() {
