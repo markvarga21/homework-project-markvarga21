@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class StyleManager {
+    private static final int HIGHLIGHT_STROKE_WIDTH = 3;
+
     public static void styleGameBoard(GridPane pane) {
         String style = """
                         -fx-border-width: 2;
@@ -20,13 +22,13 @@ public class StyleManager {
         switch (playerIndex) {
             case 1 -> {
                 Circle player1Circle = (Circle) node;
-                player1Circle.setStrokeWidth(2);
+                player1Circle.setStrokeWidth(HIGHLIGHT_STROKE_WIDTH);
                 player1Circle.setStroke(player1Color);
 //                player1Circle.setEffect(new DropShadow(20, Color.rgb(255, 0, 0, 0.5)));
             }
             case -1 -> {
                 Circle player2Circle = (Circle) node;
-                player2Circle.setStrokeWidth(2);
+                player2Circle.setStrokeWidth(HIGHLIGHT_STROKE_WIDTH);
                 player2Circle.setStroke(player2Color);
 //                player2Circle.setEffect(new DropShadow(20, Color.rgb(0, 0, 0, 0.5)));
             }

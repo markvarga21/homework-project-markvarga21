@@ -40,9 +40,8 @@ public class GameController implements Initializable {
     private Validator validator;
     private ImageManager imageManager;
 
-    private final Color player1Color = Color.BLACK; // Aladar
-    private final Color player2Color = Color.RED; // Anna
-    private final int highlightStrokeWidth = 3;
+    private Color player1Color;
+    private Color player2Color;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,6 +50,9 @@ public class GameController implements Initializable {
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
         this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
+        // if color is not selected by player
+        this.player1Color = Color.BLACK;
+        this.player2Color = Color.BLACK;
 
         StyleManager.styleGameBoard(this.gameBoard);
 
@@ -210,5 +212,21 @@ public class GameController implements Initializable {
 
     public GameModel getGameModel() {
         return this.gameModel;
+    }
+
+    public Color getPlayer1Color() {
+        return this.player1Color;
+    }
+
+    public void setPlayer1Color(Color player1Color) {
+        this.player1Color = player1Color;
+    }
+
+    public Color getPlayer2Color() {
+        return this.player2Color;
+    }
+
+    public void setPlayer2Color(Color player2Color) {
+        this.player2Color = player2Color;
     }
 }
