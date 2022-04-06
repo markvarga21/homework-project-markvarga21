@@ -1,4 +1,4 @@
-package hu.unideb.inf.homeworkproject;
+package hu.unideb.inf.homeworkproject.controller;
 
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
@@ -23,7 +23,9 @@ import javafx.scene.shape.Circle;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HelloController implements Initializable {
+// REMOVE IT
+@SuppressWarnings("Checkstyle")
+public class GameController implements Initializable {
     @FXML
     private GridPane gameBoard;
     @FXML
@@ -206,4 +208,7 @@ public class HelloController implements Initializable {
         }
     }
 
+    public GameModel getGameModel() {
+        return this.gameModel;
+    }
 }

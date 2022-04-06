@@ -50,13 +50,13 @@ public class GameModel {
      * The name of the first player, which is indicated
      * with the value of 1 in the program.
      */
-    private String player1Name = "Aladar";
+    private String player1Name;
 
     /**
      * The name of the second player, which is indicated
      * with the value of -1 in the program.
      */
-    private String player2Name = "Anna";
+    private String player2Name;
 
     /**
      * Handles who is coming next.
@@ -88,6 +88,8 @@ public class GameModel {
         this.gameBoardStatus = new int[GAME_BOARD_SIZE][GAME_BOARD_SIZE];
         this.prevNodes = new ArrayList<>();
         this.client = new Client(this);
+        this.player1Name = "";
+        this.player2Name = "";
     }
 
     /**
@@ -183,6 +185,14 @@ public class GameModel {
      */
     public void save() {
         this.client.saveGame();
+    }
+
+    public void setPlayer1Name(String player1Name) {
+        this.player1Name = player1Name;
+    }
+
+    public void setPlayer2Name(String player2Name) {
+        this.player2Name = player2Name;
     }
 
     /**
