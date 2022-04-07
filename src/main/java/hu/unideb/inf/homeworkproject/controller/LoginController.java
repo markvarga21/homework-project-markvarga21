@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -60,7 +61,7 @@ public class LoginController implements Initializable {
     public void setPlayer1Color(ActionEvent event) {
         Color color = this.player1ColorPicker.getValue();
         if (this.gameController.getPlayer2Color().equals(color)) {
-            this.gameController.getGameModel().alert("Player 2 already selected this color.\nPlease select another one!");
+            this.gameController.getGameModel().feedBackUser("Player 2 already selected this color.\nPlease select another one!", Alert.AlertType.WARNING);
         } else {
             this.gameController.setPlayer1Color(color);
         }
@@ -70,7 +71,7 @@ public class LoginController implements Initializable {
     public void setPlayer2Color(ActionEvent event) {
         Color color = this.player2ColorPicker.getValue();
         if (this.gameController.getPlayer1Color().equals(color)) {
-            this.gameController.getGameModel().alert("Player 1 already selected this color.\nPlease select another one!");
+            this.gameController.getGameModel().feedBackUser("Player 1 already selected this color.\nPlease select another one!", Alert.AlertType.WARNING);
         } else {
             this.gameController.setPlayer2Color(color);
         }

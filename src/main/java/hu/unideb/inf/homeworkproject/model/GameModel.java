@@ -101,13 +101,13 @@ public class GameModel {
      */
     public boolean setStatus(final int row, final int column, final int value) {
         if (row < 0 || row > GAME_BOARD_SIZE) {
-            alert("Wrong row number when invoking setStatus() method!");
+            feedBackUser("Wrong row number when invoking setStatus() method!", Alert.AlertType.WARNING);
             return false;
         } else if (column < 0 || column > GAME_BOARD_SIZE) {
-            alert("Wrong column number when invoking setStatus() method!");
+            feedBackUser("Wrong column number when invoking setStatus() method!", Alert.AlertType.WARNING);
             return false;
         } else if (value != 1 && value != 0) {
-            alert("Wrong value number when invoking setStatus() method!");
+            feedBackUser("Wrong value number when invoking setStatus() method!", Alert.AlertType.WARNING);
             return false;
         } else {
             this.gameBoardStatus[row][column] = value;
@@ -116,17 +116,19 @@ public class GameModel {
     }
 
     /**
-     * Alerts the user of a certain problem/message passed
-     * by the {@code message} parameter.
-     * @param message the message the alert dialogue displays.
+     * Informs the user of an error, warning, or information occurred while
+     * using the application.
+     * @param message the message we want to show for the user.
+     * @param alertType the type of the information.
      */
-    public void alert(final String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    public void feedBackUser(final String message, final Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(null);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 
     /**
      * Clears the {@code removableNodes} for further correct additions.
@@ -208,6 +210,10 @@ public class GameModel {
         this.player2Name = player2Name;
     }
 
+    public String getPlayer1Name() { return this.player1Name; }
+
+    public String getPlayer2Name() { return this.player2Name; }
+
     /**
      * Getter method for a {@code String} representing the winner.
      * @return the winner.
@@ -246,6 +252,22 @@ public class GameModel {
      */
     public int getWhosComingNext() {
         return this.whosComingNext;
+    }
+
+    /**
+     * A method for returning the player name,
+     * based on the {@code whosComingNext} index.
+     * @param index the index of the {@code player}, from which
+     * we want to extract the exact name.
+     * @return the name of the {@code player} represented
+     * by the index passed as a parameter.
+     */
+    public String getPlayerForIndex(final int index) {
+        return switch (index) {
+            case 1 -> this.player1Name;
+            case -1 -> this.player2Name;
+            default -> "No player.";
+        };
     }
 
     /**

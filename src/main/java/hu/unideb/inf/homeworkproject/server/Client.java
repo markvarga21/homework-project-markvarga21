@@ -1,6 +1,9 @@
 package hu.unideb.inf.homeworkproject.server;
 
 import hu.unideb.inf.homeworkproject.model.GameModel;
+import javafx.scene.control.Alert;
+
+import java.time.Instant;
 
 public class Client {
     private final GameModel gameModel;
@@ -17,7 +20,8 @@ public class Client {
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
                 game += this.gameModel.getGameBoardStatus()[i][j];
-        System.out.println(game);
+        this.server.addSavedGame(new Game(Instant.now(), this.gameModel.getPlayer1Name(), this.gameModel.getPlayer2Name(), game, this.gameModel.getWhosComingNext()));
+        this.gameModel.feedBackUser("Game saved successfully!", Alert.AlertType.INFORMATION);
     }
 
     public void updateLeaderBoard(String playerName) {

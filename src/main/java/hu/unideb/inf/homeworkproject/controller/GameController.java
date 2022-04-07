@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -95,7 +94,7 @@ public class GameController implements Initializable {
                     // Remove highlighting
                     StyleManager.removeHighlight(clickedNode);
                 }
-            } else this.gameModel.alert("Invalid selection!");
+            } else this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
         }
     }
 
@@ -106,7 +105,7 @@ public class GameController implements Initializable {
             this.gameModel.switchPlayer();
             this.gameModel.clearDeletions();
         } else {
-            this.gameModel.alert("Invalid selection!");
+            this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
         }
         if (this.validator.checkWinner()) {
             // to correct
@@ -190,7 +189,7 @@ public class GameController implements Initializable {
             this.gameModel.clearPrev();
             this.gameModel.switchPlayer();
             System.out.println("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
-        } else this.gameModel.alert("You cannot undo more than one steps!");
+        } else this.gameModel.feedBackUser("You cannot undo more than one steps!", Alert.AlertType.WARNING);
     }
 
     @FXML

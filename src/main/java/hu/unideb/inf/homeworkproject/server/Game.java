@@ -1,17 +1,15 @@
 package hu.unideb.inf.homeworkproject.server;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class Game {
-//    private String gameID;
-    private Date dateWhenPlayed;
+    private Instant dateWhenPlayed;
     private String player1Name;
     private String player2Name;
     private String gameBoard;
     private int whoWasGoingNext;
 
-    public Game(Date dateWhenPlayed, String player1Name, String player2Name, String gameBoard, int whoWasGoingNext) {
-//        this.gameID = gameID;
+    public Game(Instant dateWhenPlayed, String player1Name, String player2Name, String gameBoard, int whoWasGoingNext) {
         this.dateWhenPlayed = dateWhenPlayed;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
@@ -19,43 +17,25 @@ public class Game {
         this.whoWasGoingNext = whoWasGoingNext;
     }
 
-//    public String getGameID() {
-//        return gameID;
-//    }
-
-//    public void setGameID(String gameID) {
-//        this.gameID = gameID;
-//    }
-
-    public Date getDateWhenPlayed() {
-        return dateWhenPlayed;
-    }
-
-    public void setDateWhenPlayed(Date dateWhenPlayed) {
-        this.dateWhenPlayed = dateWhenPlayed;
+    public Instant getDateWhenPlayed() {
+        return this.dateWhenPlayed;
     }
 
     public String getPlayer1Name() {
         return player1Name;
     }
 
-    public void setPlayer1Name(String player1Name) {
-        this.player1Name = player1Name;
-    }
 
     public String getPlayer2Name() {
         return player2Name;
     }
 
-    public void setPlayer2Name(String player2Name) {
-        this.player2Name = player2Name;
-    }
 
     public String getGameBoard() {
         return gameBoard;
     }
 
-    public void setGameBoard(String gameBoard) {
-        this.gameBoard = gameBoard;
+    public int getWhoWasGoingNext() {
+        return whoWasGoingNext;
     }
 }

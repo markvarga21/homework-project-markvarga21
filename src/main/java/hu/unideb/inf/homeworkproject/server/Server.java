@@ -3,6 +3,9 @@ package hu.unideb.inf.homeworkproject.server;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
+import java.time.Instant;
+import java.time.LocalDate;
+
 public class Server {
     private final Jdbi jdbi;
     private Handle handle;
@@ -42,5 +45,30 @@ public class Server {
         return this.handle
                 .createQuery("SELECT * FROM leaderboard WHERE player_name = :name")
                 .bind("name", playerName).mapTo(String.class).list().isEmpty();
+    }
+
+    public void addSavedGame(final Game game) {
+        final Instant dateWhenPlayed = game.getDateWhenPlayed();
+        final String player1Name = game.getPlayer1Name();
+        final String player2Name = game.getPlayer2Name();
+        final String gameBoard = game.getGameBoard();
+        final int whoWasGoingNext = game.getWhoWasGoingNext();
+
+        this.handle.createUpdate("INSERT INTO savedgames (date, player1Name, player2Name, gameBoardState, whoWasComingNext) " +
+                                    "VALUES (:d, :p1Name, :p2Name, :gbState, :nextComing)")
+                .bind("d", dateWhenPlayed)
+                .bind("p1Name", player1Name)
+                .bind("p2Name", player2Name)
+                .bind("gbState", gameBoard)
+                .bind("nextComing", whoWasGoingNext)
+                .execute();
+
+        // logging to console
+        System.out.println("Saved game with properties: \n"
+                + "Date: " + dateWhenPlayed
+                + "\nPlayer 1 name: " + player1Name
+                + "\nPlayer 2 name: " + player2Name
+                + "\nGame board states: " + gameBoard
+                + "\nWho was coming next: " + whoWasGoingNext);
     }
 }
