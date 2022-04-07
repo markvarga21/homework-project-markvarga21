@@ -48,7 +48,7 @@ public class GameModel {
 
     /**
      * The name of the first player, which is indicated
-     * with the value of 1 in the program.
+     * by the value of 1 in the program.
      */
     private String player1Name;
 
