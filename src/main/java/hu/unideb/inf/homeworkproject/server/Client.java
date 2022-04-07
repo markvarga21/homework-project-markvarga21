@@ -3,9 +3,11 @@ package hu.unideb.inf.homeworkproject.server;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 
 public class Client {
-    private GameModel gameModel;
+    private final GameModel gameModel;
+    private final Server server;
 
     public Client(GameModel gameModel) {
+        this.server = new Server();
         this.gameModel = gameModel;
     }
 
@@ -20,5 +22,6 @@ public class Client {
 
     public void updateLeaderBoard(String playerName) {
         System.out.println("Updating player score in SQL server leaderboard!");
+        this.server.increaseScore(playerName);
     }
 }

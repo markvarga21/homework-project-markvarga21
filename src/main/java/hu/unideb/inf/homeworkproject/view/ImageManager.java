@@ -1,43 +1,39 @@
 package hu.unideb.inf.homeworkproject.view;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 
-public class ImageManager extends Thread {
-    private ImageView imageView;
-    private AnchorPane mainPane;
-    private String path;
+public class ImageManager {
+    /**
+     * The {@code AnchorPane} (this is also the main pane)
+     * to which we are attaching
+     * the images/gifs.
+     */
+    private final AnchorPane mainPane;
 
-    public ImageManager(ImageView imageView, AnchorPane mainPane) {
-        this.imageView = imageView;
-        this.mainPane = mainPane;
-        this.path = path;
+    /**
+     * Constructor for {@code ImageManager} class, which
+     * operates on images and gifs.
+     * @param pane the {@code AnchorPane} to which we
+     * will attach the graphical content.
+     */
+    public ImageManager(final AnchorPane pane) {
+        this.mainPane = pane;
     }
 
-    public void playGif(final String path) {
+    /**
+     * Displays a custom graphical content in a certain
+     * point on the main {@code AnchorPane}.
+     * @param path the path to the graphical content.
+     * @param posX the X position where we want to add the graphical content.
+     * @param posY the Y position where we want to add the graphical content.
+     */
+    public void playGif(final String path, final int posX, final int posY) {
         Image image = new Image(path);
         ImageView imgView = new ImageView(image);
-        imgView.setX(0);
-        imgView.setY(0);
+        imgView.setX(posX);
+        imgView.setY(posY);
         this.mainPane.getChildren().add(imgView);
     }
-
-    private void printHello() {
-        System.out.println("Hello!");
-    }
-
-//    public void playGif(String path) {
-//        Image image = new Image(path);
-//        ImageView imgView = new ImageView(image);
-//        imgView.setX(0);
-//        imgView.setY(0);
-//        this.mainPane.getChildren().add(imgView);
-//    }
 }

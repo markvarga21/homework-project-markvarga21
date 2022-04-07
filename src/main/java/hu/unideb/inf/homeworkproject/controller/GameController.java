@@ -51,7 +51,7 @@ public class GameController implements Initializable {
         this.nodeArray = new Node[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
-        this.imageManager = new ImageManager(this.imageHolder, this.mainPane);
+        this.imageManager = new ImageManager(this.mainPane);
         // if color is not selected by player
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
@@ -109,6 +109,8 @@ public class GameController implements Initializable {
             this.gameModel.alert("Invalid selection!");
         }
         if (this.validator.checkWinner()) {
+            // to correct
+            this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//celebration.gif", 0, 0);
             displayWinner();
             this.gameModel.getClient().updateLeaderBoard(this.gameModel.getWinner());
         }

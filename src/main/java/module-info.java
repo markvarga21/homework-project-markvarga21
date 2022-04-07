@@ -1,6 +1,9 @@
 module hu.unideb.inf.homeworkproject {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.jdbi.v3.core;
+    requires lombok;
+    requires java.sql;
 
     opens hu.unideb.inf.homeworkproject to javafx.fxml;
     exports hu.unideb.inf.homeworkproject;
