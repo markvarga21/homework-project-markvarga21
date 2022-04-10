@@ -1,5 +1,9 @@
 package hu.unideb.inf.homeworkproject.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 import java.util.stream.IntStream;
 
 /**
@@ -12,6 +16,8 @@ public class Validator {
      */
     private final GameModel gameModel;
 
+    private final Logger validatorLogger;
+
     /**
      * Constructs the {@code Validator} using a {@code GameModel} reference
      * as its parameter.
@@ -20,6 +26,7 @@ public class Validator {
      */
     public Validator(final GameModel constrGameModel) {
         this.gameModel = constrGameModel;
+        this.validatorLogger = LogManager.getLogger();
     }
 
     /**
@@ -82,15 +89,15 @@ public class Validator {
                         .sum();
 
                 // printing out values
-                System.out.println("minRow: " + minRow
+                this.validatorLogger.trace("minRow: " + minRow
                                 + ", maxRow: " + maxRow
                                 + ", wannaBeSum: " + wannaBeSum
                                 + ", testSum: " + testSum);
 
-                System.out.println("Rows: ");
+                this.validatorLogger.debug("Rows: ");
                 this.gameModel.getRemovableNodes().stream()
                         .mapToInt(CircleNode::getRow)
-                        .forEach(System.out::println);
+                        .forEach(this.validatorLogger::trace);
 
                 yield testSum == wannaBeSum;
             }
@@ -112,12 +119,12 @@ public class Validator {
                         .mapToInt(CircleNode::getColumn)
                         .sum();
 
-                System.out.println("Columns: ");
+                this.validatorLogger.debug("Columns: ");
                 this.gameModel.getRemovableNodes().stream()
                         .mapToInt(CircleNode::getColumn)
-                        .forEach(System.out::println);
+                        .forEach(this.validatorLogger::trace);
 
-                System.out.println("minColumn: " + minColumn
+                this.validatorLogger.trace("minColumn: " + minColumn
                                 + ", maxColumn: " + maxColumn
                                 + ", wannaBeSum: " + wannaBeSum
                                 + ", testSum: " + testSum);
@@ -150,7 +157,7 @@ public class Validator {
      */
     private boolean checkRowInterference(final int row) {
         final int mainRow = this.gameModel.getRemovableNodes().get(0).getRow();
-        System.out.println("Main row: " + mainRow);
+        this.validatorLogger.info("Main row: " + mainRow);
         return row == mainRow;
     }
 
@@ -164,7 +171,7 @@ public class Validator {
     @SuppressWarnings("CheckStyle")
     private boolean checkColumnInterference(final int column) {
         final int mainColumn = this.gameModel.getRemovableNodes().get(0).getColumn();
-        System.out.println("Main col: " + mainColumn);
+        this.validatorLogger.info("Main col: " + mainColumn);
         return column == mainColumn;
     }
 

@@ -1,18 +1,23 @@
 package hu.unideb.inf.homeworkproject.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
 import java.time.Instant;
-import java.time.LocalDate;
 
 public class Server {
     private final Jdbi jdbi;
     private Handle handle;
 
+    private final Logger serverLogger;
+
     public Server() {
         this.jdbi  = Jdbi.create("jdbc:mysql://localhost:3306/projectdatabase", "java", "SWEHomeWorkProject");
         this.handle = this.jdbi.open();
+        this.serverLogger = LogManager.getLogger();
     }
 
     public void increaseScore(String playerName) {
@@ -22,7 +27,7 @@ public class Server {
                     .createUpdate("INSERT INTO leaderboard (player_name, player_score) VALUES (:name, 1)")
                     .bind("name", playerName)
                     .execute();
-            System.out.println("New player added: " + playerName);
+            this.serverLogger.debug("New player added: " + playerName);
         } else {
             var optPrevScore = this.handle
                     .createQuery("SELECT player_score FROM leaderboard WHERE player_name = :name")
@@ -36,7 +41,7 @@ public class Server {
                         .bind("newScore", prevScore + 1)
                         .bind("name", playerName)
                         .execute();
-                System.out.println("Increased the point of " + playerName);
+                this.serverLogger.debug("Increased the point of " + playerName);
             }
         }
     }
@@ -64,7 +69,7 @@ public class Server {
                 .execute();
 
         // logging to console
-        System.out.println("Saved game with properties: \n"
+        this.serverLogger.trace("Saved game with properties: \n"
                 + "Date: " + dateWhenPlayed
                 + "\nPlayer 1 name: " + player1Name
                 + "\nPlayer 2 name: " + player2Name

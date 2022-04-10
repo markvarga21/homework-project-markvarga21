@@ -4,6 +4,8 @@ import hu.unideb.inf.homeworkproject.server.Client;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The main class for the mode of the game. It handles many data manipulations,
@@ -63,20 +65,23 @@ public class GameModel {
      */
     private int whosComingNext = -1;
 
-    /**
-     * Stores the first players score.
-     */
-    private int player1Score;
-
-    /**
-     * Stores the second players score.
-     */
-    private int player2Score;
+//    /**
+//     * Stores the first players score.
+//     */
+//    private int player1Score;
+//
+//    /**
+//     * Stores the second players score.
+//     */
+//    private int player2Score;
 
     /**
      * Represents the client which operates with the {@code Server}.
      */
-    private Client client;
+    private final Client client;
+
+    // TODO
+    private final Logger mainLogger;
 
     /**
      * An empty constructor, which initializes the classes
@@ -90,6 +95,7 @@ public class GameModel {
         this.client = new Client(this);
         this.player1Name = "";
         this.player2Name = "";
+        this.mainLogger = LogManager.getLogger();
     }
 
     /**
@@ -190,7 +196,8 @@ public class GameModel {
     }
 
     public void startNewGame() {
-        System.out.println("Starting new game...");
+        this.mainLogger.info("Starting new game...");
+//        System.out.println("Starting new game...");
         // we should prompt the user first...
         this.clickedCirclesCount = 0;
         this.prevNodes.clear();

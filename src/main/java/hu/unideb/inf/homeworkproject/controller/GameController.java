@@ -21,6 +21,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,6 +47,8 @@ public class GameController implements Initializable {
     private Color player1Color;
     private Color player2Color;
 
+    private Logger gameControllerLogger;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameBoardCircles = new Circle[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
@@ -54,6 +59,7 @@ public class GameController implements Initializable {
         // if color is not selected by player
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
+        this.gameControllerLogger = LogManager.getLogger();
 
         StyleManager.styleGameBoard(this.gameBoard);
         fillGameBoard();
@@ -84,7 +90,7 @@ public class GameController implements Initializable {
             Integer rowIndex = GridPane.getRowIndex(clickedNode);
             CircleNode node = new CircleNode(clickedNode, rowIndex, colIndex);
 
-            System.out.println("Clicked on: " + clickedNode.getId() + ", on row: " + rowIndex + ", column: " + colIndex);
+            this.gameControllerLogger.debug("Clicked on: " + clickedNode.getId() + ", on row: " + rowIndex + ", column: " + colIndex);
 
             if (this.validator.isValidSelection(node)) {
                 if (this.gameModel.addRemovableNode(node)) {
@@ -152,7 +158,7 @@ public class GameController implements Initializable {
 //        this.gameModel.clearPrev();
 //
         for (var node : this.gameModel.getRemovableNodes()) {
-            System.out.println("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
+            this.gameControllerLogger.debug("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
             this.gameBoard.getChildren().remove(node.getNode());
 
             final int columnIndex = node.getColumn();
@@ -169,26 +175,21 @@ public class GameController implements Initializable {
     }
 
     private void displayWinner() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(null);
-        alert.setHeaderText(null);
-        alert.setContentText(this.gameModel.getWinner() + " had just won the game!");
-        // TODO store it in redis database
-        alert.showAndWait();
+        this.gameModel.feedBackUser(this.gameModel.getWinner() + " had just won the game!", Alert.AlertType.INFORMATION);
     }
 
     @FXML
     public void undoButtonClick() {
         if (this.gameModel.getPrevNodes().size() > 0) {
-            System.out.println("Undo...");
-            System.out.println("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
+            this.gameControllerLogger.info("Undo...");
+            this.gameControllerLogger.debug("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
 
             putBackNodes();
 
             // clearing the remained nodes in prevNodes
             this.gameModel.clearPrev();
             this.gameModel.switchPlayer();
-            System.out.println("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
+            this.gameControllerLogger.debug("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
         } else this.gameModel.feedBackUser("You cannot undo more than one steps!", Alert.AlertType.WARNING);
     }
 
@@ -205,12 +206,12 @@ public class GameController implements Initializable {
 
     @FXML
     public void loadGame() {
-        System.out.println("Loading game...");
+        this.gameControllerLogger.info("Loading game...");
     }
 
     @FXML
     public void exitGame(ActionEvent event) {
-        System.out.println("Exiting game...");
+        this.gameControllerLogger.info("Exiting game...");
 //        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        stage.close();
         Platform.exit();
