@@ -1,0 +1,15 @@
+<Configuration status="debug">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{HH:mm:ss.SSS} - %m</Property>
+    </Properties>
+    <Appenders>
+        <Console name="STDOUT">
+            <PatternLayout pattern="%highlight{${LOG_PATTERN}}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>
