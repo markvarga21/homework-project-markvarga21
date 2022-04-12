@@ -1,5 +1,6 @@
 package hu.unideb.inf.homeworkproject.model;
 
+import hu.unideb.inf.homeworkproject.controller.GameLoaderController;
 import hu.unideb.inf.homeworkproject.server.Client;
 import javafx.scene.control.Alert;
 

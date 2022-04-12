@@ -7,6 +7,8 @@ import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     private final Jdbi jdbi;
@@ -75,5 +77,16 @@ public class Server {
                 + "\nPlayer 2 name: " + player2Name
                 + "\nGame board states: " + gameBoard
                 + "\nWho was coming next: " + whoWasGoingNext);
+    }
+
+    public List<Game> querySavedGames() {
+        // Instant does not work bcs SQL does not support this type of Date ?? alth it prints out in mySQL Workbench when it's queried
+        return this.handle.createQuery("SELECT * FROM savedgames")
+                .map((rs, ctx) -> new Game(
+                        rs.getString("player1Name"),
+                        rs.getString("player2Name"),
+                        rs.getString("gameBoardState"),
+                        rs.getInt("whoWasComingNext")))
+                .list();
     }
 }

@@ -17,6 +17,13 @@ public class Game {
         this.whoWasGoingNext = whoWasGoingNext;
     }
 
+    public Game(String player1Name, String player2Name, String gameBoard, int whoWasGoingNext) {
+        this.player1Name = player1Name;
+        this.player2Name = player2Name;
+        this.gameBoard = gameBoard;
+        this.whoWasGoingNext = whoWasGoingNext;
+    }
+
     public Instant getDateWhenPlayed() {
         return this.dateWhenPlayed;
     }
@@ -25,11 +32,9 @@ public class Game {
         return player1Name;
     }
 
-
     public String getPlayer2Name() {
         return player2Name;
     }
-
 
     public String getGameBoard() {
         return gameBoard;
@@ -37,5 +42,12 @@ public class Game {
 
     public int getWhoWasGoingNext() {
         return whoWasGoingNext;
+    }
+
+    @Override
+    public String toString() {
+        return "Player1 name: " + this.player1Name + " | "
+                + "Player2 name: " + this.player2Name + " | "
+                + "GameBoard: " + this.gameBoard;
     }
 }

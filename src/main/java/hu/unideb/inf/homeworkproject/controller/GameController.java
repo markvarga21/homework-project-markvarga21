@@ -1,5 +1,6 @@
 package hu.unideb.inf.homeworkproject.controller;
 
+import hu.unideb.inf.homeworkproject.HelloApplication;
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
@@ -9,11 +10,17 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -21,9 +28,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -49,6 +58,23 @@ public class GameController implements Initializable {
 
     private Logger gameControllerLogger;
 
+    private Parent root;
+    private GameLoaderController gameLoaderController;
+    @FXML
+    private MenuBar gameControllerMenu; // hogy el tudjuk kerni a stage-t amiben van, a loader scenere valtashoz
+
+
+    @FXML
+    private ImageView handImageView1;
+    @FXML
+    private ImageView handImageView2;
+    @FXML
+    private ImageView handImageView3;
+    @FXML
+    private ImageView handImageView4;
+
+    private ImageView[] handImageViewHolder;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.gameBoardCircles = new Circle[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
@@ -60,9 +86,33 @@ public class GameController implements Initializable {
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
         this.gameControllerLogger = LogManager.getLogger();
+        this.handImageViewHolder = new ImageView[4];
 
         StyleManager.styleGameBoard(this.gameBoard);
         fillGameBoard();
+
+        // imageviews for hand gestures
+        this.handImageView1.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
+        this.handImageView2.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
+        this.handImageView3.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
+        this.handImageView4.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
+        this.handImageViewHolder[0] = handImageView1;
+        this.handImageViewHolder[1] = handImageView2;
+        this.handImageViewHolder[2] = handImageView3;
+        this.handImageViewHolder[3] = handImageView4;
+
+
+        // it is nested like this, because if there is another initialize() method inside GameLoaderController, there will be concunrece,
+        // so I decided to initialize and manipulate all the functionalities of GameLoaderController here.
+        // Also we have to initialize here, in order to be able to switch to that scene, when clicking load menu item.
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-loader.fxml"));
+        try {
+            this.root = fxmlLoader.load();
+            this.gameLoaderController = fxmlLoader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void fillGameBoard() {
@@ -157,21 +207,35 @@ public class GameController implements Initializable {
 
 //        this.gameModel.clearPrev();
 //
-        for (var node : this.gameModel.getRemovableNodes()) {
-            this.gameControllerLogger.debug("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
-            this.gameBoard.getChildren().remove(node.getNode());
+        this.imageManager.playAnimation(this.gameModel.getRemovableNodes(), this.handImageViewHolder, this.gameBoard);
 
+        for (var node : this.gameModel.getRemovableNodes()) {
             final int columnIndex = node.getColumn();
             final int rowIndex = node.getRow();
 
             this.gameModel.setStatus(rowIndex, columnIndex, 0);
 
             this.gameModel.addPrevNode(node);
-
-            // we flush it before we add further nodes to it
-            // do I need this?
-//        this.mainPane.getChildren().remove(imgView);
         }
+
+        // THIS IS WORKING
+//        for (var node : this.gameModel.getRemovableNodes()) {
+//            // it does not remove the node!
+//
+//            this.gameControllerLogger.debug("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
+////            this.gameBoard.getChildren().remove(node.getNode());
+//
+//            final int columnIndex = node.getColumn();
+//            final int rowIndex = node.getRow();
+//
+//            this.gameModel.setStatus(rowIndex, columnIndex, 0);
+//
+//            this.gameModel.addPrevNode(node);
+//
+//            // we flush it before we add further nodes to it
+//            // do I need this?
+////        this.mainPane.getChildren().remove(imgView);
+//        }
     }
 
     private void displayWinner() {
@@ -207,6 +271,16 @@ public class GameController implements Initializable {
     @FXML
     public void loadGame() {
         this.gameControllerLogger.info("Loading game...");
+        Stage stage = (Stage)this.gameControllerMenu.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+        // managing the loader stage
+        // it is nested like this, because if there is another initialize() method inside GameLoaderController, there will be concunrece,
+        // so I decided to initialize and manipulate all the functionalities of GameLoaderController here.
+        var ls = this.gameModel.getClient().returnSavedGames();
+        this.gameLoaderController.setSavedGamesList(ls);
     }
 
     @FXML
@@ -224,6 +298,9 @@ public class GameController implements Initializable {
 
             // Remove highlighting
             Circle temp = (Circle) node.getNode();
+            // setting back scale, bcs animation scales it down to 0 when removing
+            temp.setScaleX(1);
+            temp.setScaleY(1);
             temp.setStrokeWidth(0);
         }
     }

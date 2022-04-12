@@ -5,6 +5,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -28,7 +29,7 @@
         </GridPane>
         <Button fx:id="doneButton" layoutX="174.0" layoutY="350.0" mnemonicParsing="false" onAction="#isPlayerDone" onMouseEntered="#onMouseEnter" text="Done" />
         <Button fx:id="undoButton" layoutX="298.0" layoutY="350.0" mnemonicParsing="false" onAction="#undoButtonClick" text="Undo" />
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="400.0">
+      <MenuBar fx:id="gameControllerMenu" layoutY="2.0" prefHeight="25.0" prefWidth="400.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -58,5 +59,9 @@
             </Menu>
         </menus>
       </MenuBar>
+      <ImageView fx:id="handImageView1" fitHeight="539.0" fitWidth="278.0" layoutX="-25.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="handImageView2" fitHeight="539.0" fitWidth="278.0" layoutX="46.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="handImageView3" fitHeight="539.0" fitWidth="278.0" layoutX="121.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="handImageView4" fitHeight="539.0" fitWidth="278.0" layoutX="197.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" />
     </children>
 </AnchorPane>

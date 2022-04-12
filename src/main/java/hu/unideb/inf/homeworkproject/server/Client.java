@@ -8,9 +8,11 @@ import org.apache.logging.log4j.Logger;
 
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client {
-    private final GameModel gameModel;
+    private GameModel gameModel;
     private final Server server;
 
     private final Logger clientLogger;
@@ -19,6 +21,12 @@ public class Client {
         this.server = new Server();
         this.gameModel = gameModel;
         this.clientLogger = LogManager.getLogger();
+    }
+
+    public Client() {
+        this.server = new Server();
+        this.clientLogger = LogManager.getLogger();
+
     }
 
     public void saveGame() {
@@ -34,5 +42,9 @@ public class Client {
     public void updateLeaderBoard(String playerName) {
         this.clientLogger.debug("Updating player score in SQL server leaderboard!");
         this.server.increaseScore(playerName);
+    }
+
+    public List<Game> returnSavedGames() {
+        return this.server.querySavedGames();
     }
 }
