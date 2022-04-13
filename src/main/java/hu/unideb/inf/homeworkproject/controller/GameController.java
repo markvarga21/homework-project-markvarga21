@@ -158,8 +158,10 @@ public class GameController implements Initializable {
     public void isPlayerDone(final ActionEvent e) {
         if (this.validator.isValidSelection()) {
             removeNodes();
+
             this.gameModel.switchPlayer();
-            this.gameModel.clearDeletions();
+            this.gameModel.clearDeletions(); // this initializes (cleares and reinitializes) the prevNodes when done is clicked
+
         } else {
             this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
         }
@@ -244,17 +246,18 @@ public class GameController implements Initializable {
 
     @FXML
     public void undoButtonClick() {
-        if (this.gameModel.getPrevNodes().size() > 0) {
+        System.out.println("Undo...");
+//        if (this.gameModel.getPrevNodes().size() > 0) {
             this.gameControllerLogger.info("Undo...");
             this.gameControllerLogger.debug("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
 
             putBackNodes();
 
             // clearing the remained nodes in prevNodes
-            this.gameModel.clearPrev();
+//            this.gameModel.clearPrev();
             this.gameModel.switchPlayer();
             this.gameControllerLogger.debug("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
-        } else this.gameModel.feedBackUser("You cannot undo more than one steps!", Alert.AlertType.WARNING);
+//        } else this.gameModel.feedBackUser("You cannot undo more than one steps!", Alert.AlertType.WARNING);
     }
 
     @FXML

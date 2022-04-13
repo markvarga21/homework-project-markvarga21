@@ -108,13 +108,13 @@ public class GameModel {
      */
     public boolean setStatus(final int row, final int column, final int value) {
         if (row < 0 || row > GAME_BOARD_SIZE) {
-            feedBackUser("Wrong row number when invoking setStatus() method!", Alert.AlertType.WARNING);
+            this.mainLogger.fatal("Wrong row number when invoking setStatus() method!");
             return false;
         } else if (column < 0 || column > GAME_BOARD_SIZE) {
-            feedBackUser("Wrong column number when invoking setStatus() method!", Alert.AlertType.WARNING);
+            this.mainLogger.fatal("Wrong column number when invoking setStatus() method!");
             return false;
         } else if (value != 1 && value != 0) {
-            feedBackUser("Wrong value number when invoking setStatus() method!", Alert.AlertType.WARNING);
+            this.mainLogger.fatal("Wrong value number when invoking setStatus() method!");
             return false;
         } else {
             this.gameBoardStatus[row][column] = value;
@@ -144,6 +144,7 @@ public class GameModel {
     public void clearDeletions() {
         this.clickedCirclesCount = 0;
         this.removableNodes.clear();
+        this.prevNodes = new ArrayList<>(this.removableNodes);
     }
 
     /**
@@ -175,10 +176,9 @@ public class GameModel {
      * Adds nodes to the {@code prevNodes} too, in order to be able
      * to undo a step, and replace them to the board.
      * @param node the {@code CircleNode} we want to undo in the future.
-     * @return {@code true} if it succeeds, and {@code false} if not.
      */
-    public boolean addPrevNode(final CircleNode node) {
-        return this.prevNodes.add(node);
+    public void addPrevNode(final CircleNode node) {
+        this.prevNodes.add(node);
     }
 
     /**
@@ -216,6 +216,26 @@ public class GameModel {
 
     public void setPlayer2Name(String player2Name) {
         this.player2Name = player2Name;
+    }
+
+    public void setPrevNodes(ArrayList<CircleNode> prevNodes) {
+        this.prevNodes = prevNodes;
+    }
+
+    public void setClickedCirclesCount(int clickedCirclesCount) {
+        this.clickedCirclesCount = clickedCirclesCount;
+    }
+
+    public void setRemovableNodes(ArrayList<CircleNode> removableNodes) {
+        this.removableNodes = removableNodes;
+    }
+
+    public void setGameBoardStatus(int[][] gameBoardStatus) {
+        this.gameBoardStatus = gameBoardStatus;
+    }
+
+    public void setWhosComingNext(int whosComingNext) {
+        this.whosComingNext = whosComingNext;
     }
 
     public String getPlayer1Name() { return this.player1Name; }
@@ -274,7 +294,7 @@ public class GameModel {
         return switch (index) {
             case 1 -> this.player1Name;
             case -1 -> this.player2Name;
-            default -> "No player.";
+            default -> "No player";
         };
     }
 

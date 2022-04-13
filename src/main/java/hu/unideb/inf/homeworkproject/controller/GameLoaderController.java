@@ -59,7 +59,7 @@ public class GameLoaderController implements Initializable {
         init();
 
         System.out.println("Switching back to main scene with the GameState of: ");
-        System.out.println(this.selectedGame);
+        System.out.println(this.selectedGame.getGameBoard());
         switchBack(event);
     }
 

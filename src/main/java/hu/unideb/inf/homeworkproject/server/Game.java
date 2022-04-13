@@ -46,8 +46,16 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Player1 name: " + this.player1Name + " | "
-                + "Player2 name: " + this.player2Name + " | "
-                + "GameBoard: " + this.gameBoard;
+        StringBuilder gameMap = new StringBuilder();
+        char square = 11036;
+        char circle = 11044;
+        String copyGameBoard = this.gameBoard.replace('1', circle).replace('0', square);
+        gameMap.append(copyGameBoard, 0, 4).append("\n")
+                .append(copyGameBoard, 4, 8).append("\n")
+                .append(copyGameBoard, 8, 12).append("\n")
+                .append(copyGameBoard, 12, 16).append("\n");
+        return "Player 1 name: " + this.player1Name + "\n"
+                + "Player 2 name: " + this.player2Name + "\n"
+                + "GameBoard: \n" + gameMap;
     }
 }
