@@ -35,7 +35,7 @@ public final class StyleManager {
         @SuppressWarnings("CheckStyle") String style = """
                         -fx-border-width: 2;
                         -fx-border-color: black;
-                        -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+                        -fx-effect: dropshadow(three-pass-box,  #0598ff, 10, 0, 0, 0);
                         """;
         pane.setStyle(style);
     }

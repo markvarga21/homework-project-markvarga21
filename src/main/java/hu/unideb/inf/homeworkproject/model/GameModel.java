@@ -2,6 +2,7 @@ package hu.unideb.inf.homeworkproject.model;
 
 import hu.unideb.inf.homeworkproject.controller.GameLoaderController;
 import hu.unideb.inf.homeworkproject.server.Client;
+import hu.unideb.inf.homeworkproject.server.Game;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
@@ -207,6 +208,19 @@ public class GameModel {
             for (int j = 0; j < GAME_BOARD_SIZE; j++) {
                 this.gameBoardStatus[i][j] = 1;
             }
+        }
+    }
+
+    public void replaceGameInfosWithLoaded(final Game gameToLoad) {
+        this.setWhosComingNext(gameToLoad.getWhoWasGoingNext());
+        this.setPlayer1Name(gameToLoad.getPlayer1Name());
+        this.setPlayer2Name(gameToLoad.getPlayer2Name());
+        this.setGameBoardStatus(gameToLoad.toStateArray());
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                System.out.print(this.getGameBoardStatus()[i][j]);
+            }
+            System.out.println();
         }
     }
 

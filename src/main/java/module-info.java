@@ -13,4 +13,5 @@ module hu.unideb.inf.homeworkproject {
     exports hu.unideb.inf.homeworkproject.controller;
     exports hu.unideb.inf.homeworkproject.model;
     exports hu.unideb.inf.homeworkproject.view;
+    exports hu.unideb.inf.homeworkproject.server;
 }

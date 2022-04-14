@@ -4,6 +4,7 @@ import hu.unideb.inf.homeworkproject.HelloApplication;
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
+import hu.unideb.inf.homeworkproject.server.Game;
 import hu.unideb.inf.homeworkproject.view.ImageManager;
 import hu.unideb.inf.homeworkproject.view.StyleManager;
 import javafx.application.Platform;
@@ -118,7 +119,7 @@ public class GameController implements Initializable {
     private void fillGameBoard() {
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
-                Circle circle = new Circle(10, Color.SKYBLUE);
+                Circle circle = new Circle(10,  Color.DEEPSKYBLUE);
                 circle.setRadius(25);
 
 //                this.gameBoardCircles[i][j] = circle;
@@ -128,6 +129,31 @@ public class GameController implements Initializable {
 
                 GridPane.setHalignment(circle, HPos.CENTER);
                 GridPane.setValignment(circle, VPos.CENTER);
+            }
+        }
+    }
+
+    public void replaceNodesWithLoaded(final Game gameToLoad) {
+        clearBoard();
+        for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
+                if (gameToLoad.toStateArray()[i][j] == 1) {
+                    Circle circle = new Circle(10,  Color.DEEPSKYBLUE);
+                    circle.setRadius(25);
+
+                    this.gameBoard.add(circle, j, i);
+
+                    GridPane.setHalignment(circle, HPos.CENTER);
+                    GridPane.setValignment(circle, VPos.CENTER);
+                }
+            }
+        }
+    }
+
+    private void clearBoard() {
+        for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
+                this.gameBoard.getChildren().remove(this.nodeArray[i][j]);
             }
         }
     }
@@ -172,43 +198,10 @@ public class GameController implements Initializable {
             this.gameModel.getClient().updateLeaderBoard(this.gameModel.getWinner());
         }
     }
-    
-//    private Timeline createTimeLine(Duration duration, String message) {
-//        final Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(final ActionEvent event) {
-//                System.out.println("Delayed remove...");
-//                System.out.println(message);
-////                gameModel.clearPrev();
-////
-////                for (var node : gameModel.getRemovableNodes()) {
-////                    System.out.println("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
-////                    gameBoard.getChildren().remove(node.getNode());
-////
-////                    final int columnIndex = node.getColumn();
-////                    final int rowIndex = node.getRow();
-////
-////                    gameModel.setStatus(rowIndex, columnIndex, 0);
-////
-////                    gameModel.addPrevNode(node);
-////                }
-//                System.out.println("Delayed remove done.");
-//            }
-//        }));
-//        return timeline;
-//    }
+
 
     private void removeNodes() {
-//        this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
-//        this.imageManager = new ImageManager(this.imageHolder, this.mainPane, "D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//kezes_proba1.gif");
-//        this.imageManager.start();
-//        Thread.sleep(2000);
-//
-//        Timeline timeline = createTimeLine(Duration.seconds(2), "LOL");
-//        timeline.play();
-
 //        this.gameModel.clearPrev();
-//
         this.imageManager.playAnimation(this.gameModel.getRemovableNodes(), this.handImageViewHolder, this.gameBoard);
 
         for (var node : this.gameModel.getRemovableNodes()) {

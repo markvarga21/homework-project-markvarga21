@@ -1,5 +1,7 @@
 package hu.unideb.inf.homeworkproject.server;
 
+import hu.unideb.inf.homeworkproject.model.GameModel;
+
 import java.time.Instant;
 
 public class Game {
@@ -42,6 +44,17 @@ public class Game {
 
     public int getWhoWasGoingNext() {
         return whoWasGoingNext;
+    }
+
+    public int[][] toStateArray() {
+        int[][] temp = new int[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
+        int index = 0;
+        for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
+                temp[i][j] = Integer.parseInt(String.valueOf(this.gameBoard.charAt(index++)));
+            }
+        }
+        return temp;
     }
 
     @Override
