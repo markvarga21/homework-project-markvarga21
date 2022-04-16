@@ -6,8 +6,8 @@ import hu.unideb.inf.homeworkproject.server.Game;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 /**
  * The main class for the mode of the game. It handles many data manipulations,
@@ -83,7 +83,10 @@ public class GameModel {
     private final Client client;
 
     // TODO
-    private final Logger mainLogger;
+//    private final Logger mainLogger;
+
+    private String player1Color;
+    private String player2Color;
 
     /**
      * An empty constructor, which initializes the classes
@@ -96,8 +99,10 @@ public class GameModel {
         this.prevNodes = new ArrayList<>();
         this.client = new Client(this);
         this.player1Name = "";
+        this.player1Color = "";
+        this.player2Color = "";
         this.player2Name = "";
-        this.mainLogger = LogManager.getLogger();
+//        this.mainLogger = LogManager.getLogger();
     }
 
     /**
@@ -109,18 +114,34 @@ public class GameModel {
      */
     public boolean setStatus(final int row, final int column, final int value) {
         if (row < 0 || row > GAME_BOARD_SIZE) {
-            this.mainLogger.fatal("Wrong row number when invoking setStatus() method!");
+//            this.mainLogger.fatal("Wrong row number when invoking setStatus() method!");
             return false;
         } else if (column < 0 || column > GAME_BOARD_SIZE) {
-            this.mainLogger.fatal("Wrong column number when invoking setStatus() method!");
+//            this.mainLogger.fatal("Wrong column number when invoking setStatus() method!");
             return false;
         } else if (value != 1 && value != 0) {
-            this.mainLogger.fatal("Wrong value number when invoking setStatus() method!");
+//            this.mainLogger.fatal("Wrong value number when invoking setStatus() method!");
             return false;
         } else {
             this.gameBoardStatus[row][column] = value;
             return true;
         }
+    }
+
+    public void setPlayer1Color(String player1Color) {
+        this.player1Color = player1Color;
+    }
+
+    public void setPlayer2Color(String player2Color) {
+        this.player2Color = player2Color;
+    }
+
+    public String getPlayer1Color() {
+        return player1Color;
+    }
+
+    public String getPlayer2Color() {
+        return player2Color;
     }
 
     /**
@@ -198,7 +219,7 @@ public class GameModel {
     }
 
     public void startNewGame() {
-        this.mainLogger.info("Starting new game...");
+//        this.mainLogger.info("Starting new game...");
 //        System.out.println("Starting new game...");
         // we should prompt the user first...
         this.clickedCirclesCount = 0;
@@ -215,6 +236,10 @@ public class GameModel {
         this.setWhosComingNext(gameToLoad.getWhoWasGoingNext());
         this.setPlayer1Name(gameToLoad.getPlayer1Name());
         this.setPlayer2Name(gameToLoad.getPlayer2Name());
+
+        this.setPlayer1Color(gameToLoad.getPlayer1Color());
+        this.setPlayer2Color(gameToLoad.getPlayer2Color());
+
         this.setGameBoardStatus(gameToLoad.toStateArray());
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {

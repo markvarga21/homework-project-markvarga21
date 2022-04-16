@@ -34,7 +34,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-view.fxml"));
+//        System.out.println("RESOURCE FROM LOGINCONTROLLER"+getClass().getResource("/fxmls/game-view.fxml"));
         try {
             this.root = fxmlLoader.load();
             this.gameController = fxmlLoader.getController();
@@ -47,6 +48,10 @@ public class LoginController implements Initializable {
     public void startGame(ActionEvent event) {
         this.gameController.getGameModel().setPlayer1Name(this.player1NameTextField.getText());
         this.gameController.getGameModel().setPlayer2Name(this.player2NameTextField.getText());
+        this.gameController.getGameModel().setPlayer1Color(this.player1ColorPicker.getValue().toString());
+        this.gameController.getGameModel().setPlayer2Color(this.player2ColorPicker.getValue().toString());
+        System.out.println("player1Color: " + this.gameController.getGameModel().getPlayer1Color());
+        System.out.println("player2Color: " + this.gameController.getGameModel().getPlayer2Color());
 
         // and displaying/switching to scene2
         // extracting the source of the node (which is casted), and than casting to stange, and after this

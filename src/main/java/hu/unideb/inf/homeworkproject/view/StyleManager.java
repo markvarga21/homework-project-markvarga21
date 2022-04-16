@@ -5,8 +5,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 /**
  * A class managing the styling of the application.
@@ -17,7 +17,7 @@ public final class StyleManager {
      */
     private static final int HIGHLIGHT_STROKE_WIDTH = 3;
 
-    private static final Logger styleManagerLogger = LogManager.getLogger();
+//    private static final Logger styleManagerLogger = LogManager.getLogger();
 
     /**
      * Private constructor, because it cannot be initialized.
@@ -61,7 +61,8 @@ public final class StyleManager {
                 player2Circle.setStrokeWidth(HIGHLIGHT_STROKE_WIDTH);
                 player2Circle.setStroke(player2Color);
             }
-            default -> styleManagerLogger.error("Something went wrong!");
+            default -> System.out.println("Something went wrong!");
+//            styleManagerLogger.error("Something went wrong!");
         }
     }
 
@@ -80,7 +81,8 @@ public final class StyleManager {
      * NOT USED YET
      * @param node the {@code Node} which is hovered.
      */
-    public static void hoverStyle(final Node node) {
-        styleManagerLogger.info("Hovered!");
+    public static void hoverStyle(Node node) {
+//        node.setStyle("-fx-background-color: black");
+//        styleManagerLogger.info("Hovered!");
     }
 }

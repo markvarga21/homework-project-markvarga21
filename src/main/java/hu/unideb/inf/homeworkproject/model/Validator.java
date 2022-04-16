@@ -1,7 +1,7 @@
 package hu.unideb.inf.homeworkproject.model;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 
 
 import java.util.stream.IntStream;
@@ -16,7 +16,7 @@ public class Validator {
      */
     private final GameModel gameModel;
 
-    private final Logger validatorLogger;
+//    private final Logger validatorLogger;
 
     /**
      * Constructs the {@code Validator} using a {@code GameModel} reference
@@ -26,7 +26,7 @@ public class Validator {
      */
     public Validator(final GameModel constrGameModel) {
         this.gameModel = constrGameModel;
-        this.validatorLogger = LogManager.getLogger();
+//        this.validatorLogger = LogManager.getLogger();
     }
 
     /**
@@ -89,15 +89,15 @@ public class Validator {
                         .sum();
 
                 // printing out values
-                this.validatorLogger.trace("minRow: " + minRow
-                                + ", maxRow: " + maxRow
-                                + ", wannaBeSum: " + wannaBeSum
-                                + ", testSum: " + testSum);
+//                this.validatorLogger.trace("minRow: " + minRow
+//                                + ", maxRow: " + maxRow
+//                                + ", wannaBeSum: " + wannaBeSum
+//                                + ", testSum: " + testSum);
 
-                this.validatorLogger.debug("Rows: ");
-                this.gameModel.getRemovableNodes().stream()
-                        .mapToInt(CircleNode::getRow)
-                        .forEach(this.validatorLogger::trace);
+//                this.validatorLogger.debug("Rows: ");
+//                this.gameModel.getRemovableNodes().stream()
+//                        .mapToInt(CircleNode::getRow)
+//                        .forEach(this.validatorLogger::trace);
 
                 yield testSum == wannaBeSum;
             }
@@ -119,15 +119,15 @@ public class Validator {
                         .mapToInt(CircleNode::getColumn)
                         .sum();
 
-                this.validatorLogger.debug("Columns: ");
-                this.gameModel.getRemovableNodes().stream()
-                        .mapToInt(CircleNode::getColumn)
-                        .forEach(this.validatorLogger::trace);
+//                this.validatorLogger.debug("Columns: ");
+//                this.gameModel.getRemovableNodes().stream()
+//                        .mapToInt(CircleNode::getColumn)
+//                        .forEach(this.validatorLogger::trace);
 
-                this.validatorLogger.trace("minColumn: " + minColumn
-                                + ", maxColumn: " + maxColumn
-                                + ", wannaBeSum: " + wannaBeSum
-                                + ", testSum: " + testSum);
+//                this.validatorLogger.trace("minColumn: " + minColumn
+//                                + ", maxColumn: " + maxColumn
+//                                + ", wannaBeSum: " + wannaBeSum
+//                                + ", testSum: " + testSum);
                 yield testSum == wannaBeSum;
             }
             case NOT_CALIBRATED -> true;
@@ -139,7 +139,7 @@ public class Validator {
      * {@code HORIZONTAL}, {@code VERTICAL} or {@code NOT_CALIBRATED}.
      * @return the orientation of the circles.
      */
-    private Orientation getOrientation() {
+    public Orientation getOrientation() {
         if (this.gameModel.getRemovableNodes().size() >= 2) {
             return this.gameModel.getRemovableNodes().get(0).getColumn()
                     == this.gameModel.getRemovableNodes().get(1).getColumn()
@@ -155,9 +155,9 @@ public class Validator {
      * @return {@code true}, if it is in the main row,
      * else returns {@code false}.
      */
-    private boolean checkRowInterference(final int row) {
+    public boolean checkRowInterference(final int row) {
         final int mainRow = this.gameModel.getRemovableNodes().get(0).getRow();
-        this.validatorLogger.info("Main row: " + mainRow);
+//        this.validatorLogger.info("Main row: " + mainRow);
         return row == mainRow;
     }
 
@@ -169,9 +169,9 @@ public class Validator {
      * else returns {@code false}.
      */
     @SuppressWarnings("CheckStyle")
-    private boolean checkColumnInterference(final int column) {
+    public boolean checkColumnInterference(final int column) {
         final int mainColumn = this.gameModel.getRemovableNodes().get(0).getColumn();
-        this.validatorLogger.info("Main col: " + mainColumn);
+//        this.validatorLogger.info("Main col: " + mainColumn);
         return column == mainColumn;
     }
 

@@ -7,21 +7,27 @@ import java.time.Instant;
 public class Game {
     private Instant dateWhenPlayed;
     private String player1Name;
+    private String player1Color;
     private String player2Name;
+    private String player2Color;
     private String gameBoard;
     private int whoWasGoingNext;
 
-    public Game(Instant dateWhenPlayed, String player1Name, String player2Name, String gameBoard, int whoWasGoingNext) {
+    public Game(Instant dateWhenPlayed, String player1Name, String player1Color, String player2Name, String player2Color, String gameBoard, int whoWasGoingNext) {
         this.dateWhenPlayed = dateWhenPlayed;
         this.player1Name = player1Name;
+        this.player1Color = player1Color;
         this.player2Name = player2Name;
+        this.player2Color = player2Color;
         this.gameBoard = gameBoard;
         this.whoWasGoingNext = whoWasGoingNext;
     }
 
-    public Game(String player1Name, String player2Name, String gameBoard, int whoWasGoingNext) {
+    public Game(String player1Name, String player1Color, String player2Name, String player2Color, String gameBoard, int whoWasGoingNext) {
         this.player1Name = player1Name;
+        this.player1Color = player1Color;
         this.player2Name = player2Name;
+        this.player2Color = player2Color;
         this.gameBoard = gameBoard;
         this.whoWasGoingNext = whoWasGoingNext;
     }
@@ -46,6 +52,14 @@ public class Game {
         return whoWasGoingNext;
     }
 
+    public String getPlayer1Color() {
+        return player1Color;
+    }
+
+    public String getPlayer2Color() {
+        return player2Color;
+    }
+
     public int[][] toStateArray() {
         int[][] temp = new int[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
         int index = 0;
@@ -67,8 +81,8 @@ public class Game {
                 .append(copyGameBoard, 4, 8).append("\n")
                 .append(copyGameBoard, 8, 12).append("\n")
                 .append(copyGameBoard, 12, 16).append("\n");
-        return "Player 1 name: " + this.player1Name + "\n"
-                + "Player 2 name: " + this.player2Name + "\n"
+        return "Player 1 name: " + this.player1Name + " with the color " + this.player1Color + "\n"
+                + "Player 2 name: " + this.player2Name + " with the color " + this.player2Color + "\n"
                 + "GameBoard: \n" + gameMap;
     }
 }

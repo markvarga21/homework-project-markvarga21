@@ -30,8 +30,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
+//import org.w3c.dom.events.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +58,7 @@ public class GameController implements Initializable {
     private Color player1Color;
     private Color player2Color;
 
-    private Logger gameControllerLogger;
+//    private Logger gameControllerLogger;
 
     private Parent root;
     private GameLoaderController gameLoaderController;
@@ -86,17 +87,20 @@ public class GameController implements Initializable {
         // if color is not selected by player
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
-        this.gameControllerLogger = LogManager.getLogger();
+//        this.gameControllerLogger = LogManager.getLogger();
         this.handImageViewHolder = new ImageView[4];
 
         StyleManager.styleGameBoard(this.gameBoard);
         fillGameBoard();
 
         // imageviews for hand gestures
-        this.handImageView1.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
-        this.handImageView2.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
-        this.handImageView3.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
-        this.handImageView4.setImage(new Image("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//hand-and-arm.png"));
+//        System.out.println(getClass().getResource("/images/hand-and-arm.png").getPath());
+        Image image = new Image(String.valueOf(getClass().getResource("/images/hand-and-arm.png")));
+        this.handImageView1.setImage(image);
+        this.handImageView2.setImage(image);
+        this.handImageView3.setImage(image);
+        this.handImageView4.setImage(image);
+
         this.handImageViewHolder[0] = handImageView1;
         this.handImageViewHolder[1] = handImageView2;
         this.handImageViewHolder[2] = handImageView3;
@@ -106,7 +110,7 @@ public class GameController implements Initializable {
         // it is nested like this, because if there is another initialize() method inside GameLoaderController, there will be concunrece,
         // so I decided to initialize and manipulate all the functionalities of GameLoaderController here.
         // Also we have to initialize here, in order to be able to switch to that scene, when clicking load menu item.
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-loader.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-loader.fxml"));
         try {
             this.root = fxmlLoader.load();
             this.gameLoaderController = fxmlLoader.getController();
@@ -143,6 +147,9 @@ public class GameController implements Initializable {
 
                     this.gameBoard.add(circle, j, i);
 
+                    // refreshing the node references
+                    this.nodeArray[i][j] = circle;
+
                     GridPane.setHalignment(circle, HPos.CENTER);
                     GridPane.setValignment(circle, VPos.CENTER);
                 }
@@ -150,7 +157,7 @@ public class GameController implements Initializable {
         }
     }
 
-    private void clearBoard() {
+    public void clearBoard() {
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
                 this.gameBoard.getChildren().remove(this.nodeArray[i][j]);
@@ -166,7 +173,7 @@ public class GameController implements Initializable {
             Integer rowIndex = GridPane.getRowIndex(clickedNode);
             CircleNode node = new CircleNode(clickedNode, rowIndex, colIndex);
 
-            this.gameControllerLogger.debug("Clicked on: " + clickedNode.getId() + ", on row: " + rowIndex + ", column: " + colIndex);
+//            this.gameControllerLogger.debug("Clicked on: " + clickedNode.getId() + ", on row: " + rowIndex + ", column: " + colIndex);
 
             if (this.validator.isValidSelection(node)) {
                 if (this.gameModel.addRemovableNode(node)) {
@@ -193,7 +200,7 @@ public class GameController implements Initializable {
         }
         if (this.validator.checkWinner()) {
             // to correct
-            this.imageManager.playGif("D://....................Egyetem//4. felev//software-engeneering//HomeworkProject//src//main//resources//images//celebration.gif", 0, 0);
+            this.imageManager.playGif(String.valueOf(getClass().getResource("/images/celebration.gif")), 0, 0);
             displayWinner();
             this.gameModel.getClient().updateLeaderBoard(this.gameModel.getWinner());
         }
@@ -241,15 +248,15 @@ public class GameController implements Initializable {
     public void undoButtonClick() {
         System.out.println("Undo...");
 //        if (this.gameModel.getPrevNodes().size() > 0) {
-            this.gameControllerLogger.info("Undo...");
-            this.gameControllerLogger.debug("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
+//            this.gameControllerLogger.info("Undo...");
+//            this.gameControllerLogger.debug("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
 
             putBackNodes();
 
             // clearing the remained nodes in prevNodes
 //            this.gameModel.clearPrev();
             this.gameModel.switchPlayer();
-            this.gameControllerLogger.debug("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
+//            this.gameControllerLogger.debug("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
 //        } else this.gameModel.feedBackUser("You cannot undo more than one steps!", Alert.AlertType.WARNING);
     }
 
@@ -261,12 +268,13 @@ public class GameController implements Initializable {
     @FXML
     public void newGame() {
         this.gameModel.startNewGame();
+        clearBoard(); // clearing before putting back nodes
         fillGameBoard();
     }
 
     @FXML
     public void loadGame() {
-        this.gameControllerLogger.info("Loading game...");
+//        this.gameControllerLogger.info("Loading game...");
         Stage stage = (Stage)this.gameControllerMenu.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -281,7 +289,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void exitGame(ActionEvent event) {
-        this.gameControllerLogger.info("Exiting game...");
+//        this.gameControllerLogger.info("Exiting game...");
 //        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        stage.close();
         Platform.exit();

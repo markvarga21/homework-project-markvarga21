@@ -4,7 +4,7 @@ module hu.unideb.inf.homeworkproject {
     requires org.jdbi.v3.core;
     requires lombok;
     requires java.sql;
-    requires org.apache.logging.log4j;
+//    requires org.apache.logging.log4j;
 
     opens hu.unideb.inf.homeworkproject to javafx.fxml;
     exports hu.unideb.inf.homeworkproject;
