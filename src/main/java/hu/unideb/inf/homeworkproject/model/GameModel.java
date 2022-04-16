@@ -68,19 +68,9 @@ public class GameModel {
     private int whosComingNext = -1;
 
 //    /**
-//     * Stores the first players score.
+//     * Represents the client which operates with the {@code Server}.
 //     */
-//    private int player1Score;
-//
-//    /**
-//     * Stores the second players score.
-//     */
-//    private int player2Score;
-
-    /**
-     * Represents the client which operates with the {@code Server}.
-     */
-    private final Client client;
+//    private final Client client;
 
     // TODO
 //    private final Logger mainLogger;
@@ -97,7 +87,7 @@ public class GameModel {
         this.clickedCirclesCount = 0;
         this.gameBoardStatus = new int[GAME_BOARD_SIZE][GAME_BOARD_SIZE];
         this.prevNodes = new ArrayList<>();
-        this.client = new Client(this);
+//        this.client = new Client(this);
         this.player1Name = "";
         this.player1Color = "";
         this.player2Color = "";
@@ -215,7 +205,8 @@ public class GameModel {
      * which saves the game in the database.
      */
     public void save() {
-        this.client.saveGame();
+        Client client = new Client(this);
+        client.saveGame();
     }
 
     public void startNewGame() {
@@ -337,13 +328,13 @@ public class GameModel {
         };
     }
 
-    /**
-     * Getter method for the {@code client}.
-     * @return the {@code client}.
-     */
-    public Client getClient() {
-        return this.client;
-    }
+//    /**
+//     * Getter method for the {@code client}.
+//     * @return the {@code client}.
+//     */
+//    public Client getClient() {
+//        return this.client;
+//    }
 
     /**
      * Getter for the {@code clickedCirclesCount}.

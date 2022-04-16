@@ -83,14 +83,10 @@ public class CircleNode {
      */
     @Override
     public int hashCode() {
-        try {
-            int nodeHash = this.getClass().getField("node").hashCode();
-            int rowHash = this.getClass().getField("row").hashCode();
-            int columnHash = this.getClass().getField("column").hashCode();
-            return nodeHash + rowHash + columnHash;
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        return -1;
+        int nodeHash = this.node.hashCode();
+        int rowHash = Integer.hashCode(this.row);
+        int columnHash = Integer.hashCode(this.column);
+
+        return nodeHash + rowHash + columnHash;
     }
 }

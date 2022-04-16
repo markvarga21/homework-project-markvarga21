@@ -1,12 +1,7 @@
 package hu.unideb.inf.homeworkproject.controller;
 
-import hu.unideb.inf.homeworkproject.HelloApplication;
 import hu.unideb.inf.homeworkproject.model.GameModel;
-import hu.unideb.inf.homeworkproject.server.Client;
 import hu.unideb.inf.homeworkproject.server.Game;
-import hu.unideb.inf.homeworkproject.server.Server;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 

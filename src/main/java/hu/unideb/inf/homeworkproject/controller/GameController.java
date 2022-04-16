@@ -4,6 +4,7 @@ import hu.unideb.inf.homeworkproject.HelloApplication;
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
+import hu.unideb.inf.homeworkproject.server.Client;
 import hu.unideb.inf.homeworkproject.server.Game;
 import hu.unideb.inf.homeworkproject.view.ImageManager;
 import hu.unideb.inf.homeworkproject.view.StyleManager;
@@ -202,7 +203,8 @@ public class GameController implements Initializable {
             // to correct
             this.imageManager.playGif(String.valueOf(getClass().getResource("/images/celebration.gif")), 0, 0);
             displayWinner();
-            this.gameModel.getClient().updateLeaderBoard(this.gameModel.getWinner());
+            Client client = new Client(this.gameModel);
+            client.updateLeaderBoard(this.gameModel.getWinner());
         }
     }
 
@@ -283,7 +285,8 @@ public class GameController implements Initializable {
         // managing the loader stage
         // it is nested like this, because if there is another initialize() method inside GameLoaderController, there will be concunrece,
         // so I decided to initialize and manipulate all the functionalities of GameLoaderController here.
-        var ls = this.gameModel.getClient().returnSavedGames();
+        Client client = new Client(this.gameModel);
+        var ls = client.returnSavedGames();
         this.gameLoaderController.setSavedGamesList(ls);
     }
 

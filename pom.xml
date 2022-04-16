@@ -129,6 +129,12 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.11.0</version>
             </plugin>
+<!--            Disabled because it throws the there is too many server users -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M6</version>
+            </plugin>
         </plugins>
     </build>
     <reporting>

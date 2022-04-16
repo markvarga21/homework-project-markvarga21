@@ -22,7 +22,6 @@ class GameModelTest {
         assertEquals(0, gameModel.getClickedCirclesCount());
         assertNotNull(gameModel.getGameBoardStatus());
         assertNotNull(gameModel.getPrevNodes());
-        assertNotNull(gameModel.getClient());
         assertEquals("", gameModel.getPlayer1Name());
         assertEquals("", gameModel.getPlayer2Name());
     }
@@ -240,12 +239,6 @@ class GameModelTest {
         assertEquals("Jenny", gameModel.getPlayerForIndex(-1));
         assertEquals("No player", gameModel.getPlayerForIndex(5));
 
-    }
-
-    @Test
-    void getClient() {
-        GameModel gameModel = new GameModel();
-        assertNotNull(gameModel.getClient());
     }
 
     @Test
