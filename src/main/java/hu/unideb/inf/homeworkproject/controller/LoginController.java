@@ -1,6 +1,5 @@
 package hu.unideb.inf.homeworkproject.controller;
 
-import hu.unideb.inf.homeworkproject.HelloApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +34,6 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-view.fxml"));
-//        System.out.println("RESOURCE FROM LOGINCONTROLLER"+getClass().getResource("/fxmls/game-view.fxml"));
         try {
             this.root = fxmlLoader.load();
             this.gameController = fxmlLoader.getController();

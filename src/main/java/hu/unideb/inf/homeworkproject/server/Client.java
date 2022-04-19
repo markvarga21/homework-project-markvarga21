@@ -3,34 +3,30 @@ package hu.unideb.inf.homeworkproject.server;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import javafx.scene.control.Alert;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
     private GameModel gameModel;
     private final Server server;
 
-//    private final Logger clientLogger;
+    static Logger clientLogger = LogManager.getLogger();
 
     public Client(GameModel gameModel) {
         this.server = new Server();
         this.gameModel = gameModel;
-//        this.clientLogger = LogManager.getLogger();
     }
 
     public Client() {
         this.server = new Server();
-//        this.clientLogger = LogManager.getLogger();
-
     }
 
     public void saveGame() {
-//        this.clientLogger.info("Game is saved!");
+        clientLogger.info("Game is saved successfully!");
         String game = "";
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
@@ -46,7 +42,7 @@ public class Client {
     }
 
     public void updateLeaderBoard(String playerName) {
-//        this.clientLogger.debug("Updating player score in SQL server leaderboard!");
+        clientLogger.debug("Updating player score in SQL server leaderboard!");
         this.server.increaseScore(playerName);
     }
 

@@ -1,6 +1,5 @@
 package hu.unideb.inf.homeworkproject.controller;
 
-import hu.unideb.inf.homeworkproject.HelloApplication;
 import hu.unideb.inf.homeworkproject.model.CircleNode;
 import hu.unideb.inf.homeworkproject.model.GameModel;
 import hu.unideb.inf.homeworkproject.model.Validator;
@@ -21,7 +20,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,9 +29,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import javafx.stage.Stage;
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-//import org.w3c.dom.events.MouseEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,7 +56,7 @@ public class GameController implements Initializable {
     private Color player1Color;
     private Color player2Color;
 
-//    private Logger gameControllerLogger;
+    static final Logger gameControllerLogger = LogManager.getLogger();
 
     private Parent root;
     private GameLoaderController gameLoaderController;
@@ -88,14 +85,12 @@ public class GameController implements Initializable {
         // if color is not selected by player
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
-//        this.gameControllerLogger = LogManager.getLogger();
         this.handImageViewHolder = new ImageView[4];
 
         StyleManager.styleGameBoard(this.gameBoard);
         fillGameBoard();
 
         // imageviews for hand gestures
-//        System.out.println(getClass().getResource("/images/hand-and-arm.png").getPath());
         Image image = new Image(String.valueOf(getClass().getResource("/images/hand-and-arm.png")));
         this.handImageView1.setImage(image);
         this.handImageView2.setImage(image);
@@ -174,7 +169,7 @@ public class GameController implements Initializable {
             Integer rowIndex = GridPane.getRowIndex(clickedNode);
             CircleNode node = new CircleNode(clickedNode, rowIndex, colIndex);
 
-//            this.gameControllerLogger.debug("Clicked on: " + clickedNode.getId() + ", on row: " + rowIndex + ", column: " + colIndex);
+            gameControllerLogger.debug("Clicked on: {}, on row: {}, column: {}", clickedNode.getId(), rowIndex, + colIndex);
 
             if (this.validator.isValidSelection(node)) {
                 if (this.gameModel.addRemovableNode(node)) {
@@ -190,6 +185,8 @@ public class GameController implements Initializable {
 
     @FXML
     public void isPlayerDone(final ActionEvent e) {
+        gameControllerLogger.info("Hello from done!");
+
         if (this.validator.isValidSelection()) {
             removeNodes();
 
@@ -248,7 +245,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void undoButtonClick() {
-        System.out.println("Undo...");
+        gameControllerLogger.info("Undo...");
 //        if (this.gameModel.getPrevNodes().size() > 0) {
 //            this.gameControllerLogger.info("Undo...");
 //            this.gameControllerLogger.debug("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
@@ -276,7 +273,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void loadGame() {
-//        this.gameControllerLogger.info("Loading game...");
+        gameControllerLogger.info("Loading game...");
         Stage stage = (Stage)this.gameControllerMenu.getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -292,7 +289,7 @@ public class GameController implements Initializable {
 
     @FXML
     public void exitGame(ActionEvent event) {
-//        this.gameControllerLogger.info("Exiting game...");
+        gameControllerLogger.info("Exiting game...");
 //        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        stage.close();
         Platform.exit();

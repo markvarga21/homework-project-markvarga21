@@ -1,13 +1,12 @@
 package hu.unideb.inf.homeworkproject.model;
 
-import hu.unideb.inf.homeworkproject.controller.GameLoaderController;
 import hu.unideb.inf.homeworkproject.server.Client;
 import hu.unideb.inf.homeworkproject.server.Game;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The main class for the mode of the game. It handles many data manipulations,
@@ -72,8 +71,7 @@ public class GameModel {
 //     */
 //    private final Client client;
 
-    // TODO
-//    private final Logger mainLogger;
+    static Logger mainLogger = LogManager.getLogger();
 
     private String player1Color;
     private String player2Color;
@@ -87,12 +85,10 @@ public class GameModel {
         this.clickedCirclesCount = 0;
         this.gameBoardStatus = new int[GAME_BOARD_SIZE][GAME_BOARD_SIZE];
         this.prevNodes = new ArrayList<>();
-//        this.client = new Client(this);
         this.player1Name = "";
         this.player1Color = "";
         this.player2Color = "";
         this.player2Name = "";
-//        this.mainLogger = LogManager.getLogger();
     }
 
     /**
@@ -104,13 +100,13 @@ public class GameModel {
      */
     public boolean setStatus(final int row, final int column, final int value) {
         if (row < 0 || row > GAME_BOARD_SIZE) {
-//            this.mainLogger.fatal("Wrong row number when invoking setStatus() method!");
+            mainLogger.fatal("Wrong row number when invoking setStatus() method!");
             return false;
         } else if (column < 0 || column > GAME_BOARD_SIZE) {
-//            this.mainLogger.fatal("Wrong column number when invoking setStatus() method!");
+            mainLogger.fatal("Wrong column number when invoking setStatus() method!");
             return false;
         } else if (value != 1 && value != 0) {
-//            this.mainLogger.fatal("Wrong value number when invoking setStatus() method!");
+            mainLogger.fatal("Wrong value number when invoking setStatus() method!");
             return false;
         } else {
             this.gameBoardStatus[row][column] = value;
@@ -210,8 +206,7 @@ public class GameModel {
     }
 
     public void startNewGame() {
-//        this.mainLogger.info("Starting new game...");
-//        System.out.println("Starting new game...");
+        mainLogger.info("Starting new game...");
         // we should prompt the user first...
         this.clickedCirclesCount = 0;
         this.prevNodes.clear();
@@ -232,12 +227,15 @@ public class GameModel {
         this.setPlayer2Color(gameToLoad.getPlayer2Color());
 
         this.setGameBoardStatus(gameToLoad.toStateArray());
+        mainLogger.info("GameBoard to reload: ");
+        StringBuilder board = new StringBuilder("");
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                System.out.print(this.getGameBoardStatus()[i][j]);
+                board.append(this.getGameBoardStatus()[i][j]);
             }
-            System.out.println();
+            board.append("\n");
         }
+        mainLogger.trace(board);
     }
 
     public void setPlayer1Name(String player1Name) {

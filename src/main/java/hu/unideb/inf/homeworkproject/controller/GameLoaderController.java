@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class GameLoaderController implements Initializable {
     private GameModel gameModel;
 
@@ -27,6 +30,8 @@ public class GameLoaderController implements Initializable {
     @FXML
     private ListView<Game> savedGamesList;
     private Game selectedGame;
+
+    static Logger gameLoaderControllerLogger = LogManager.getLogger();
 
 
     @Override
@@ -42,7 +47,7 @@ public class GameLoaderController implements Initializable {
 
     @FXML
     public void loadGame(ActionEvent event) {
-        System.out.println("Loading FXML, and initializing gameModel...");
+        gameLoaderControllerLogger.debug("Loading FXML, and initializing gameModel...");
         init();
 //
 //        // clearing the board before loading
@@ -51,14 +56,14 @@ public class GameLoaderController implements Initializable {
         this.gameController.replaceNodesWithLoaded(this.selectedGame);
         this.gameModel.replaceGameInfosWithLoaded(this.selectedGame);
         // setting back colors
-        System.out.println("P1color: " + this.selectedGame.getPlayer1Color());
-        System.out.println("P2color: " + this.selectedGame.getPlayer2Color());
+        gameLoaderControllerLogger.info("P1color: {}", this.selectedGame.getPlayer1Color());
+        gameLoaderControllerLogger.info("P2color: {}", this.selectedGame.getPlayer2Color());
 
         this.gameController.setPlayer1Color(Color.web(this.selectedGame.getPlayer1Color()));
         this.gameController.setPlayer2Color(Color.web(this.selectedGame.getPlayer2Color()));
 
-        System.out.println("Switching back to main scene with the GameState of: ");
-        System.out.println(this.selectedGame.getGameBoard());
+        gameLoaderControllerLogger.debug("Switching back to main scene with the GameState of: ");
+        gameLoaderControllerLogger.trace(this.selectedGame.getGameBoard());
         switchBack(event);
     }
 

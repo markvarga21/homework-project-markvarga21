@@ -30,7 +30,7 @@ public class ImageManager {
      */
     public ImageManager(final AnchorPane pane) {
         this.mainPane = pane;
-        // FORMAT: nrOfImageViewer (out of the 4),yTranslateValue
+        // FORMAT: indexOfImageViewer (out of the 4),yTranslateValue
         this.positionShiftValues = new String[][] {{"0,445", "1,445", "2,445", "3,445"},
                                                     {"0,375", "1,375", "2,375", "3,375"},
                                                     {"0,305", "1,305", "2,305", "3,305"},

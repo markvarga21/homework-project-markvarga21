@@ -1,25 +1,23 @@
 package hu.unideb.inf.homeworkproject.server;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
     private final Jdbi jdbi;
     private Handle handle;
 
-//    private final Logger serverLogger;
+   static Logger serverLogger = LogManager.getLogger();
 
     public Server() {
         this.jdbi  = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11485916", "sql11485916", "HQtvDKAqR5");
         this.handle = this.jdbi.open();
-//        this.serverLogger = LogManager.getLogger();
     }
 
     public void increaseScore(String playerName) {
@@ -29,7 +27,7 @@ public class Server {
                     .createUpdate("INSERT INTO leaderboard (player_name, player_score) VALUES (:name, 1)")
                     .bind("name", playerName)
                     .execute();
-//            this.serverLogger.debug("New player added: " + playerName);
+            serverLogger.debug("New player added: " + playerName);
         } else {
             var optPrevScore = this.handle
                     .createQuery("SELECT player_score FROM leaderboard WHERE player_name = :name")
@@ -43,7 +41,7 @@ public class Server {
                         .bind("newScore", prevScore + 1)
                         .bind("name", playerName)
                         .execute();
-//                this.serverLogger.debug("Increased the point of " + playerName);
+                serverLogger.debug("Increased the point of " + playerName);
             }
         }
     }
@@ -63,9 +61,6 @@ public class Server {
         final String gameBoard = game.getGameBoard();
         final int whoWasGoingNext = game.getWhoWasGoingNext();
 
-        System.out.println("P1color: " + player1Color);
-        System.out.println("P2color: " + player2Color);
-
         this.handle.createUpdate("INSERT INTO savedgames (date, player1Name, player1Color, player2Name, player2Color, gameBoardState, whoWasComingNext) " +
                                     "VALUES (:d, :p1Name, :p1Color, :p2Name, :p2Color, :gbState, :nextComing)")
                 .bind("d", dateWhenPlayed)
@@ -78,12 +73,8 @@ public class Server {
                 .execute();
 
         // logging to console
-//        this.serverLogger.trace("Saved game with properties: \n"
-//                + "Date: " + dateWhenPlayed
-//                + "\nPlayer 1 name: " + player1Name
-//                + "\nPlayer 2 name: " + player2Name
-//                + "\nGame board states: " + gameBoard
-//                + "\nWho was coming next: " + whoWasGoingNext);
+        serverLogger.trace("Saved game with properties: \n Date: {} \n Player 1 name: {} \n Player 2 name: {} \n Game board states: {} \n Who was coming next: {}",
+                dateWhenPlayed, player1Name,player2Name, gameBoard, whoWasGoingNext);
     }
 
     public List<Game> querySavedGames() {
