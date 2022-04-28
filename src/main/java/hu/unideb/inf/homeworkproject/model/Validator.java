@@ -16,7 +16,7 @@ public class Validator {
      */
     private final GameModel gameModel;
 
-    static Logger validatorLogger = LogManager.getLogger();
+    final static Logger validatorLogger = LogManager.getLogger();
 
     /**
      * Constructs the {@code Validator} using a {@code GameModel} reference

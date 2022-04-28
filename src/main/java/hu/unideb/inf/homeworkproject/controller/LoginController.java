@@ -12,6 +12,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +22,8 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     private Parent root;
     private GameController gameController;
+
+    final static Logger loginControllerLogger = LogManager.getLogger();
 
     @FXML
     private TextField player1NameTextField;
@@ -48,8 +52,9 @@ public class LoginController implements Initializable {
         this.gameController.getGameModel().setPlayer2Name(this.player2NameTextField.getText());
         this.gameController.getGameModel().setPlayer1Color(this.player1ColorPicker.getValue().toString());
         this.gameController.getGameModel().setPlayer2Color(this.player2ColorPicker.getValue().toString());
-        System.out.println("player1Color: " + this.gameController.getGameModel().getPlayer1Color());
-        System.out.println("player2Color: " + this.gameController.getGameModel().getPlayer2Color());
+
+        loginControllerLogger.info("player1Color: {}", this.gameController.getGameModel().getPlayer1Color());
+        loginControllerLogger.info("player2Color: {}", this.gameController.getGameModel().getPlayer2Color());
 
         // and displaying/switching to scene2
         // extracting the source of the node (which is casted), and than casting to stange, and after this

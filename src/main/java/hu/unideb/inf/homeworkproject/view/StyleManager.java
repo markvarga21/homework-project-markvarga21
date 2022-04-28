@@ -17,7 +17,7 @@ public final class StyleManager {
      */
     private static final int HIGHLIGHT_STROKE_WIDTH = 3;
 
-    static Logger styleManagerLogger = LogManager.getLogger();
+    final static Logger styleManagerLogger = LogManager.getLogger();
 
     /**
      * Private constructor, because it cannot be initialized.

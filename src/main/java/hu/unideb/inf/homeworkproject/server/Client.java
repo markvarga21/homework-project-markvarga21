@@ -14,7 +14,7 @@ public class Client {
     private GameModel gameModel;
     private final Server server;
 
-    static Logger clientLogger = LogManager.getLogger();
+    final static Logger clientLogger = LogManager.getLogger();
 
     public Client(GameModel gameModel) {
         this.server = new Server();

@@ -71,7 +71,7 @@ public class GameModel {
 //     */
 //    private final Client client;
 
-    static Logger mainLogger = LogManager.getLogger();
+    final static Logger mainLogger = LogManager.getLogger();
 
     private String player1Color;
     private String player2Color;

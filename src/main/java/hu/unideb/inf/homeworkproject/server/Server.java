@@ -13,7 +13,7 @@ public class Server {
     private final Jdbi jdbi;
     private Handle handle;
 
-   static Logger serverLogger = LogManager.getLogger();
+   final static Logger serverLogger = LogManager.getLogger();
 
     public Server() {
         this.jdbi  = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11485916", "sql11485916", "HQtvDKAqR5");
@@ -35,7 +35,7 @@ public class Server {
                     .mapTo(Integer.class)
                     .findOne();
             int prevScore = optPrevScore.isEmpty() ? -1 : optPrevScore.get();
-            if (prevScore == -1) System.out.println("The player " + playerName + " does not exist!");
+            if (prevScore == -1) serverLogger.error("The player " + playerName + " does not exist!");
             else {
                 this.handle.createUpdate("UPDATE leaderboard SET player_score = :newScore WHERE player_name = :name")
                         .bind("newScore", prevScore + 1)

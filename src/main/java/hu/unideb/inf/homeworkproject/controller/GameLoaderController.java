@@ -31,7 +31,7 @@ public class GameLoaderController implements Initializable {
     private ListView<Game> savedGamesList;
     private Game selectedGame;
 
-    static Logger gameLoaderControllerLogger = LogManager.getLogger();
+    final static Logger gameLoaderControllerLogger = LogManager.getLogger();
 
 
     @Override
