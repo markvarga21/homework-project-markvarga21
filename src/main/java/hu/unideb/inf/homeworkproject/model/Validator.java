@@ -38,7 +38,6 @@ public class Validator {
      * @return {@code true} if the selection if correct,
      * else returns {@code false}.
      */
-    @SuppressWarnings("CheckStyle")
     public boolean isValidSelection(final CircleNode node) {
         final int rowToCheck = node.getRow();
         final int columnToCheck = node.getColumn();
@@ -92,7 +91,7 @@ public class Validator {
                                 + ", maxRow: " + maxRow
                                 + ", wannaBeSum: " + wannaBeSum
                                 + ", testSum: " + testSum);
-//
+
                 validatorLogger.debug("Rows: ");
                 this.gameModel.getRemovableNodes().stream()
                         .mapToInt(CircleNode::getRow)
@@ -122,7 +121,7 @@ public class Validator {
                 this.gameModel.getRemovableNodes().stream()
                         .mapToInt(CircleNode::getColumn)
                         .forEach(validatorLogger::trace);
-//
+
                 validatorLogger.trace("minColumn: " + minColumn
                                 + ", maxColumn: " + maxColumn
                                 + ", wannaBeSum: " + wannaBeSum
@@ -167,7 +166,6 @@ public class Validator {
      * @return {@code true}, if it is in the main column,
      * else returns {@code false}.
      */
-    @SuppressWarnings("CheckStyle")
     public boolean checkColumnInterference(final int column) {
         final int mainColumn = this.gameModel.getRemovableNodes().get(0).getColumn();
         validatorLogger.info("Main col: " + mainColumn);
@@ -192,5 +190,4 @@ public class Validator {
         }
         return true;
     }
-
 }

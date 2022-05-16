@@ -204,6 +204,8 @@
                 <version>${maven.checkstyle.version}</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
+<!--                    Added in plus -->
+                    <excludes>**/module-info.java</excludes>
                 </configuration>
             </plugin>
         </plugins>

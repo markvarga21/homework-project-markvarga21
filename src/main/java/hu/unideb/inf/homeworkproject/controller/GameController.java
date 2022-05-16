@@ -36,15 +36,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-// REMOVE IT
-@SuppressWarnings("Checkstyle")
 public class GameController implements Initializable {
     @FXML
     private GridPane gameBoard;
     @FXML
     private AnchorPane mainPane;
-    @FXML
-    private ImageView imageHolder;
 
     private Circle[][] gameBoardCircles;
     private Node[][] nodeArray;
@@ -197,7 +193,7 @@ public class GameController implements Initializable {
             this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
         }
         if (this.validator.checkWinner()) {
-            // to correct
+//            correct this, bcs it plays in infinity
             this.imageManager.playGif(String.valueOf(getClass().getResource("/images/celebration.gif")), 0, 0);
             displayWinner();
             Client client = new Client(this.gameModel);
@@ -207,7 +203,6 @@ public class GameController implements Initializable {
 
 
     private void removeNodes() {
-//        this.gameModel.clearPrev();
         this.imageManager.playAnimation(this.gameModel.getRemovableNodes(), this.handImageViewHolder, this.gameBoard);
 
         for (var node : this.gameModel.getRemovableNodes()) {
@@ -215,48 +210,11 @@ public class GameController implements Initializable {
             final int rowIndex = node.getRow();
 
             this.gameModel.setStatus(rowIndex, columnIndex, 0);
-
-            this.gameModel.addPrevNode(node);
         }
-
-        // THIS IS WORKING
-//        for (var node : this.gameModel.getRemovableNodes()) {
-//            // it does not remove the node!
-//
-//            this.gameControllerLogger.debug("Removing node: " + node.getNode() + ", on row: " + node.getRow() + ", and column: " + node.getColumn());
-////            this.gameBoard.getChildren().remove(node.getNode());
-//
-//            final int columnIndex = node.getColumn();
-//            final int rowIndex = node.getRow();
-//
-//            this.gameModel.setStatus(rowIndex, columnIndex, 0);
-//
-//            this.gameModel.addPrevNode(node);
-//
-//            // we flush it before we add further nodes to it
-//            // do I need this?
-////        this.mainPane.getChildren().remove(imgView);
-//        }
     }
 
     private void displayWinner() {
         this.gameModel.feedBackUser(this.gameModel.getWinner() + " had just won the game!", Alert.AlertType.INFORMATION);
-    }
-
-    @FXML
-    public void undoButtonClick() {
-        gameControllerLogger.info("Undo...");
-//        if (this.gameModel.getPrevNodes().size() > 0) {
-//            this.gameControllerLogger.info("Undo...");
-//            this.gameControllerLogger.debug("prevNodes size before putting back: " + this.gameModel.getPrevNodes().size());
-
-            putBackNodes();
-
-            // clearing the remained nodes in prevNodes
-//            this.gameModel.clearPrev();
-            this.gameModel.switchPlayer();
-//            this.gameControllerLogger.debug("prevNodes size after putting back: " + this.gameModel.getPrevNodes().size());
-//        } else this.gameModel.feedBackUser("You cannot undo more than one steps!", Alert.AlertType.WARNING);
     }
 
     @FXML
@@ -293,20 +251,6 @@ public class GameController implements Initializable {
 //        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 //        stage.close();
         Platform.exit();
-    }
-
-    private void putBackNodes() {
-        var nodesToPutBack = this.gameModel.getPrevNodes();
-        for (var node : nodesToPutBack) {
-            this.gameBoard.add(node.getNode(), node.getColumn(), node.getRow());
-
-            // Remove highlighting
-            Circle temp = (Circle) node.getNode();
-            // setting back scale, bcs animation scales it down to 0 when removing
-            temp.setScaleX(1);
-            temp.setScaleY(1);
-            temp.setStrokeWidth(0);
-        }
     }
 
     @FXML

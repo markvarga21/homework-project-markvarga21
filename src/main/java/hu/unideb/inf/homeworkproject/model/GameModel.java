@@ -22,19 +22,13 @@ public class GameModel {
     /**
      * The maximum number of {@code CircleNode}s we can select at once.
      */
-    public static final int MAX_NUMBER_OF_CIRCLES_TO_CLICK = 3; // why not 4?
+    public static final int MAX_NUMBER_OF_CIRCLES_TO_CLICK = 3;
 
     /**
      * It stores the {@code CircleNodes}s which tend to be removed after
      * the player is finished.
      */
     private ArrayList<CircleNode> removableNodes;
-
-    /**
-     * It stores the {@code CircleNodes}s for one step, for making able
-     * to undo a step.
-      */
-    private ArrayList<CircleNode> prevNodes;
 
     /**
      * It stores the status of each cell:
@@ -66,11 +60,6 @@ public class GameModel {
      */
     private int whosComingNext = -1;
 
-//    /**
-//     * Represents the client which operates with the {@code Server}.
-//     */
-//    private final Client client;
-
     final static Logger mainLogger = LogManager.getLogger();
 
     private String player1Color;
@@ -84,7 +73,6 @@ public class GameModel {
         this.removableNodes = new ArrayList<>();
         this.clickedCirclesCount = 0;
         this.gameBoardStatus = new int[GAME_BOARD_SIZE][GAME_BOARD_SIZE];
-        this.prevNodes = new ArrayList<>();
         this.player1Name = "";
         this.player1Color = "";
         this.player2Color = "";
@@ -152,7 +140,6 @@ public class GameModel {
     public void clearDeletions() {
         this.clickedCirclesCount = 0;
         this.removableNodes.clear();
-        this.prevNodes = new ArrayList<>(this.removableNodes);
     }
 
     /**
@@ -180,21 +167,6 @@ public class GameModel {
         }
     }
 
-    /**
-     * Adds nodes to the {@code prevNodes} too, in order to be able
-     * to undo a step, and replace them to the board.
-     * @param node the {@code CircleNode} we want to undo in the future.
-     */
-    public void addPrevNode(final CircleNode node) {
-        this.prevNodes.add(node);
-    }
-
-    /**
-     * Cleares the nodes in {@code prevNodes}.
-     */
-    public void clearPrev() {
-        this.prevNodes.clear();
-    }
 
     /**
      * Invokes the {@code client}s {@code saveGame()} method,
@@ -209,7 +181,6 @@ public class GameModel {
         mainLogger.info("Starting new game...");
         // we should prompt the user first...
         this.clickedCirclesCount = 0;
-        this.prevNodes.clear();
         this.removableNodes.clear();
         for (int i = 0; i < GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GAME_BOARD_SIZE; j++) {
@@ -244,10 +215,6 @@ public class GameModel {
 
     public void setPlayer2Name(String player2Name) {
         this.player2Name = player2Name;
-    }
-
-    public void setPrevNodes(ArrayList<CircleNode> prevNodes) {
-        this.prevNodes = prevNodes;
     }
 
     public void setClickedCirclesCount(int clickedCirclesCount) {
@@ -325,28 +292,11 @@ public class GameModel {
             default -> "No player";
         };
     }
-
-//    /**
-//     * Getter method for the {@code client}.
-//     * @return the {@code client}.
-//     */
-//    public Client getClient() {
-//        return this.client;
-//    }
-
     /**
      * Getter for the {@code clickedCirclesCount}.
      * @return the number of {@code CircleNodes} clicked.
      */
     public int getClickedCirclesCount() {
         return clickedCirclesCount;
-    }
-
-    /**
-     * Getter for {@code prevNoeds}.
-     * @return an {@code ArrayList} containing {@code CircleNode}s.
-     */
-    public ArrayList<CircleNode> getPrevNodes() {
-        return prevNodes;
     }
 }
