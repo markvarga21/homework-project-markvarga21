@@ -36,49 +36,131 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * A class which is used in playing the main game,
+ * manipulating the view and also the model
+ * components too.
+ */
 public class GameController implements Initializable {
+    /**
+     * A {@code GridPane} which stores the stones/circles.
+     */
     @FXML
     private GridPane gameBoard;
+
+    /**
+     * The main {@code AnchorPane} of the application.
+     */
     @FXML
     private AnchorPane mainPane;
 
-    private Circle[][] gameBoardCircles;
+    /**
+     * A 2D array of {@code Node}s for easier {@code Node}
+     * reference index identification.
+     */
     private Node[][] nodeArray;
 
+    /**
+     * The main {@code GameModel} of the application/game.
+     */
     private GameModel gameModel;
+
+    /**
+     * The {@code Validator} of the application/game for
+     * validating certain moves/actions.
+     */
     private Validator validator;
+
+    /**
+     * An object used by the animations when
+     * circle takeoff.
+     */
     private ImageManager imageManager;
 
+    /**
+     * The {@code Color} of the first player.
+     */
     private Color player1Color;
+
+    /**
+     * The {@code Color} of the second player.
+     */
     private Color player2Color;
 
+    /**
+     * Logger for {@code GameController} class.
+     */
     static final Logger gameControllerLogger = LogManager.getLogger();
 
+    /**
+     * A {@code Parent} object representing the root.
+     */
     private Parent root;
+
+    /**
+     * The main {@code GameLoaderController} for further invocations.
+     */
     private GameLoaderController gameLoaderController;
+
+    /**
+     * A {@code MenuBar} used to identify the current stage for
+     * loading the {@code loader} scene.
+     */
     @FXML
-    private MenuBar gameControllerMenu; // hogy el tudjuk kerni a stage-t amiben van, a loader scenere valtashoz
+    private MenuBar gameControllerMenu;
 
-
+    /**
+     * An {@code ImageView} which holds an image
+     * of a hand.
+     */
     @FXML
     private ImageView handImageView1;
+
+    /**
+     * An {@code ImageView} which holds an image
+     * of a hand.
+     */
     @FXML
     private ImageView handImageView2;
+
+    /**
+     * An {@code ImageView} which holds an image
+     * of a hand.
+     */
     @FXML
     private ImageView handImageView3;
+
+    /**
+     * An {@code ImageView} which holds an image
+     * of a hand.
+     */
     @FXML
     private ImageView handImageView4;
 
+    /**
+     * An {@code ImageView} array, which stores all
+     * the hands which are separately inside a
+     * {@code ImageView}.
+     */
     private ImageView[] handImageViewHolder;
 
+    /**
+     * This initializes everything before loading the scene.
+     * It nests the scene/fxml loading, because if there is another
+     * {@code initialize()} method inside {@code GameLoaderController},
+     * there will be a concurrence.
+     * Also, we have to initialize here, in order to be able
+     * to switch to that scene, when clicking load menu item.
+     * @param url for resolving relative paths for the root object.
+     * @param resourceBundle used to localize the root object.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.gameBoardCircles = new Circle[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
         this.nodeArray = new Node[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
         this.imageManager = new ImageManager(this.mainPane);
-        // if color is not selected by player
+
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
         this.handImageViewHolder = new ImageView[4];
@@ -86,7 +168,6 @@ public class GameController implements Initializable {
         StyleManager.styleGameBoard(this.gameBoard);
         fillGameBoard();
 
-        // imageviews for hand gestures
         Image image = new Image(String.valueOf(getClass().getResource("/images/hand-and-arm.png")));
         this.handImageView1.setImage(image);
         this.handImageView2.setImage(image);
@@ -98,10 +179,6 @@ public class GameController implements Initializable {
         this.handImageViewHolder[2] = handImageView3;
         this.handImageViewHolder[3] = handImageView4;
 
-
-        // it is nested like this, because if there is another initialize() method inside GameLoaderController, there will be concunrece,
-        // so I decided to initialize and manipulate all the functionalities of GameLoaderController here.
-        // Also we have to initialize here, in order to be able to switch to that scene, when clicking load menu item.
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-loader.fxml"));
         try {
             this.root = fxmlLoader.load();
@@ -109,16 +186,18 @@ public class GameController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * A method which initially
+     * fills the {@code GameBoard} with {@code Circle}s.
+     */
     private void fillGameBoard() {
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
                 Circle circle = new Circle(10,  Color.DEEPSKYBLUE);
                 circle.setRadius(25);
 
-//                this.gameBoardCircles[i][j] = circle;
                 this.gameModel.setStatus(i, j, 1);
                 this.gameBoard.add(circle, j, i);
                 this.nodeArray[i][j] = circle;
@@ -129,6 +208,13 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * It is used when there is a game loading.
+     * It will replace all the nodes and states with
+     * the new ones passed by the parameter.
+     * Also, it refreshes the node references too.
+     * @param gameToLoad the new {@code Game} we want to load.
+     */
     public void replaceNodesWithLoaded(final Game gameToLoad) {
         clearBoard();
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
@@ -139,7 +225,6 @@ public class GameController implements Initializable {
 
                     this.gameBoard.add(circle, j, i);
 
-                    // refreshing the node references
                     this.nodeArray[i][j] = circle;
 
                     GridPane.setHalignment(circle, HPos.CENTER);
@@ -149,6 +234,9 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * A method used to clear the {@code GameBoard}.
+     */
     public void clearBoard() {
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
@@ -157,6 +245,10 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * A method which is invoked when a {@code Circle} is clicked.
+     * @param event representing a {@code MouseEvent}.
+     */
     @FXML
     public void onButtonClick(MouseEvent event) {
         Node clickedNode = event.getPickResult().getIntersectedNode();
@@ -169,16 +261,20 @@ public class GameController implements Initializable {
 
             if (this.validator.isValidSelection(node)) {
                 if (this.gameModel.addRemovableNode(node)) {
-                    // Highlighting
                     StyleManager.highlightNode(this.gameModel.getWhosComingNext(), clickedNode, this.player1Color, this.player2Color);
                 } else {
-                    // Remove highlighting
                     StyleManager.removeHighlight(clickedNode);
                 }
             } else this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
         }
     }
 
+    /**
+     * Checks whether a player is done selecting the circles or not
+     * by pressing the DONE button. It also checks if there is a
+     * winner or not.
+     * @param e representing a {@code ActionEvent}.
+     */
     @FXML
     public void isPlayerDone(final ActionEvent e) {
         gameControllerLogger.info("Hello from done!");
@@ -187,7 +283,7 @@ public class GameController implements Initializable {
             removeNodes();
 
             this.gameModel.switchPlayer();
-            this.gameModel.clearDeletions(); // this initializes (cleares and reinitializes) the prevNodes when done is clicked
+            this.gameModel.clearDeletions();
 
         } else {
             this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
@@ -201,7 +297,11 @@ public class GameController implements Initializable {
         }
     }
 
-
+    /**
+     * A method which removes all the nodes from the {@code board}.
+     * It also plays an animation for each
+     * {@code Circle}, showing the takeaway.
+     */
     private void removeNodes() {
         this.imageManager.playAnimation(this.gameModel.getRemovableNodes(), this.handImageViewHolder, this.gameBoard);
 
@@ -213,22 +313,40 @@ public class GameController implements Initializable {
         }
     }
 
+    /**
+     * A method for displaying the winner inside an {@code Alert} box.
+     */
     private void displayWinner() {
         this.gameModel.feedBackUser(this.gameModel.getWinner() + " had just won the game!", Alert.AlertType.INFORMATION);
     }
 
+    /**
+     * Invokes the {@code GameModel}s {@code save()} method.
+     */
     @FXML
     public void saveGame() {
         this.gameModel.save();
     }
 
+    /**
+     * Invokes the {@code GameModel}s {@code startNewGame()} method.
+     * It also clears the board before putting back the {@code Circle}s
+     * for the new game.
+     */
     @FXML
     public void newGame() {
         this.gameModel.startNewGame();
-        clearBoard(); // clearing before putting back nodes
+        clearBoard();
         fillGameBoard();
     }
 
+    /**
+     * A method which is used to load games, and for
+     * switching back to the main scene.
+     * It also uses the {@code Client}, because
+     * there is no need to open the server connection
+     * in each {@code GameController} class instantiation.
+     */
     @FXML
     public void loadGame() {
         gameControllerLogger.info("Loading game...");
@@ -237,46 +355,57 @@ public class GameController implements Initializable {
         stage.setScene(scene);
         stage.show();
 
-        // managing the loader stage
-        // it is nested like this, because if there is another initialize() method inside GameLoaderController, there will be concunrece,
-        // so I decided to initialize and manipulate all the functionalities of GameLoaderController here.
         Client client = new Client(this.gameModel);
         var ls = client.returnSavedGames();
         this.gameLoaderController.setSavedGamesList(ls);
     }
 
+    /**
+     * A method for exiting the application/game.
+     * @param event representing an {@code ActionEvent}.
+     */
     @FXML
     public void exitGame(ActionEvent event) {
         gameControllerLogger.info("Exiting game...");
-//        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//        stage.close();
         Platform.exit();
     }
 
-    @FXML
-    public void onMouseEnter(MouseEvent event) {
-        Node clickedNode = event.getPickResult().getIntersectedNode();
-        if (clickedNode != gameBoard) {
-            StyleManager.hoverStyle(clickedNode);
-        }
-    }
-
+    /**
+     * A method for getting the {@code GameModel}.
+     * @return the main {@code GameModel}.
+     */
     public GameModel getGameModel() {
         return this.gameModel;
     }
 
+    /**
+     * A method for getting the {@code Color} of the first player.
+     * @return the {@code Color} of the first player.
+     */
     public Color getPlayer1Color() {
         return this.player1Color;
     }
 
+    /**
+     * A method for setting the {@code Color} of the first player.
+     * @param player1Color the new {@code Color} of the first player.
+     */
     public void setPlayer1Color(Color player1Color) {
         this.player1Color = player1Color;
     }
 
+    /**
+     * A method for getting the {@code Color} of the second player.
+     * @return the {@code Color} of the second player.
+     */
     public Color getPlayer2Color() {
         return this.player2Color;
     }
 
+    /**
+     * A method for setting the {@code Color} of the second player.
+     * @param player2Color the new {@code Color} of the second player.
+     */
     public void setPlayer2Color(Color player2Color) {
         this.player2Color = player2Color;
     }

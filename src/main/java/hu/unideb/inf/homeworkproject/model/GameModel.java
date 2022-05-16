@@ -60,9 +60,19 @@ public class GameModel {
      */
     private int whosComingNext = -1;
 
+    /**
+     * Logger for {@code GameModel} class.
+     */
     final static Logger mainLogger = LogManager.getLogger();
 
+    /**
+     * The {@code Color} of the first player.
+     */
     private String player1Color;
+
+    /**
+     * The {@code Color} of the second player.
+     */
     private String player2Color;
 
     /**
@@ -102,22 +112,6 @@ public class GameModel {
         }
     }
 
-    public void setPlayer1Color(String player1Color) {
-        this.player1Color = player1Color;
-    }
-
-    public void setPlayer2Color(String player2Color) {
-        this.player2Color = player2Color;
-    }
-
-    public String getPlayer1Color() {
-        return player1Color;
-    }
-
-    public String getPlayer2Color() {
-        return player2Color;
-    }
-
     /**
      * Informs the user of an error, warning, or information occurred while
      * using the application.
@@ -131,7 +125,6 @@ public class GameModel {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 
     /**
      * Clears the {@code removableNodes} for further correct additions.
@@ -167,7 +160,6 @@ public class GameModel {
         }
     }
 
-
     /**
      * Invokes the {@code client}s {@code saveGame()} method,
      * which saves the game in the database.
@@ -177,6 +169,9 @@ public class GameModel {
         client.saveGame();
     }
 
+    /**
+     * It starts a new game.
+     */
     public void startNewGame() {
         mainLogger.info("Starting new game...");
         // we should prompt the user first...
@@ -189,6 +184,11 @@ public class GameModel {
         }
     }
 
+    /**
+     * A method used for loading the pre-saved games.
+     * @param gameToLoad the {@code Game} we want to reload
+     * into the application.
+     */
     public void replaceGameInfosWithLoaded(final Game gameToLoad) {
         this.setWhosComingNext(gameToLoad.getWhoWasGoingNext());
         this.setPlayer1Name(gameToLoad.getPlayer1Name());
@@ -209,33 +209,103 @@ public class GameModel {
         mainLogger.trace(board);
     }
 
+    /**
+     * Setter for player 1 name.
+     * @param player1Name the new name of player 1.
+     */
     public void setPlayer1Name(String player1Name) {
         this.player1Name = player1Name;
     }
 
+    /**
+     * Setter for player 2 name.
+     * @param player2Name the new name of player 2.
+     */
     public void setPlayer2Name(String player2Name) {
         this.player2Name = player2Name;
     }
 
+    /**
+     * Setter for {@code clickedCirclesCount}.
+     * @param clickedCirclesCount the new number of clicked circles.
+     */
     public void setClickedCirclesCount(int clickedCirclesCount) {
         this.clickedCirclesCount = clickedCirclesCount;
     }
 
+    /**
+     * Setter for {@code removableNodes}.
+     * @param removableNodes the new {@code removableNodes}.
+     */
     public void setRemovableNodes(ArrayList<CircleNode> removableNodes) {
         this.removableNodes = removableNodes;
     }
 
+    /**
+     * Setter for {@code gameBoardStatus}.
+     * @param gameBoardStatus the new {@code gameBoardStatus}.
+     */
     public void setGameBoardStatus(int[][] gameBoardStatus) {
         this.gameBoardStatus = gameBoardStatus;
     }
 
+    /**
+     * Setter the player 1 {@code Color}.
+     * @param player1Color the new {@code Color} of player 1.
+     */
+    public void setPlayer1Color(String player1Color) {
+        this.player1Color = player1Color;
+    }
+
+    /**
+     * Setter the player 2 {@code Color}.
+     * @param player2Color the new {@code Color} of player 2.
+     */
+    public void setPlayer2Color(String player2Color) {
+        this.player2Color = player2Color;
+    }
+
+    /**
+     * Getter for player 1 {@code Color}.
+     * @return the {@code Color} of player 1.
+     */
+    public String getPlayer1Color() {
+        return player1Color;
+    }
+
+    /**
+     * Getter for player 2 {@code Color}.
+     * @return the {@code Color} of player 2.
+     */
+    public String getPlayer2Color() {
+        return player2Color;
+    }
+
+    /**
+     * A method for setting up who was coming next.
+     * @param whosComingNext the index of the player
+     * who we want to come next. -1 is the first player,
+     * and +1 is the second player.
+     */
     public void setWhosComingNext(int whosComingNext) {
         this.whosComingNext = whosComingNext;
     }
 
-    public String getPlayer1Name() { return this.player1Name; }
+    /**
+     * A method for getting the first players name.
+     * @return the name of the first player.
+     */
+    public String getPlayer1Name() {
+        return this.player1Name;
+    }
 
-    public String getPlayer2Name() { return this.player2Name; }
+    /**
+     * A method for getting the second players name.
+     * @return the name of the second player.
+     */
+    public String getPlayer2Name() {
+        return this.player2Name;
+    }
 
     /**
      * Getter method for a {@code String} representing the winner.

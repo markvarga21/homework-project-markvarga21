@@ -7,19 +7,29 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The main class for starting the application.
+ */
 public class HelloApplication extends Application {
 
+    /**
+     * Loads the FXMLs and starts the application.
+     * @param stage the first {@code Scene} we want to display.
+     * @throws IOException if something goes wrong when the
+     * method is invoked.
+     */
     @Override
     public void start(Stage stage) throws IOException {
-//        System.out.println(getClass().getResource("/fxmls/login-view.fxml").getPath());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-//        String cssLink = Objects.requireNonNull(this.getClass().getResource("style.css")).toExternalForm();
-//        scene.getStylesheets().add(cssLink);
         stage.setScene(scene);
         stage.show();
     }
 
+    /**
+     * Launching the application.
+     * @param args optional command-line arguments.
+     */
     public static void main(String[] args) {
         launch();
     }

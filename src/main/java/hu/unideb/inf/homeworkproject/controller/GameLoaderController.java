@@ -21,30 +21,65 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * A controller class for the loading scene.
+ */
 public class GameLoaderController implements Initializable {
+    /**
+     * The main {@code GameModel}.
+     */
     private GameModel gameModel;
 
+    /**
+     * A {@code Parent} object representing the root.
+     */
     private Parent root;
+
+    /**
+     * The main {@code GameController} for further invocations.
+     */
     private GameController gameController;
 
+    /**
+     * A {@code ListView} which contains {@code Game}s.
+     */
     @FXML
     private ListView<Game> savedGamesList;
+
+    /**
+     * A {@code Game} container which stores the currently
+     * clicked {@code Game} in the {@code ListView}.
+     */
     private Game selectedGame;
 
+    /**
+     * Logger for {@code GameLoaderController} class.
+     */
     final static Logger gameLoaderControllerLogger = LogManager.getLogger();
 
-
+    /**
+     * This initializes everything before loading the scene.
+     * @param url for resolving relative paths for the root object.
+     * @param resourceBundle used to localize the root object.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.savedGamesList.getSelectionModel().selectedItemProperty().addListener((observableValue, game, t1) -> selectedGame = savedGamesList.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Sets the {@code ListView} items to the specified list passed
+     * in the arguments.
+     * @param games the {@code Game}s we want to display.
+     */
     public void setSavedGamesList(List<Game> games) {
         this.savedGamesList.getItems().addAll(games);
     }
 
-// miert van baja az initializerrel ha itt is van??
-
+    /**
+     * A method which is used to load a game.
+     * @param event representing an {@code ActionEvent}.
+     */
     @FXML
     public void loadGame(ActionEvent event) {
         gameLoaderControllerLogger.debug("Loading FXML, and initializing gameModel...");
@@ -67,6 +102,10 @@ public class GameLoaderController implements Initializable {
         switchBack(event);
     }
 
+    /**
+     * Used by {@code GameLoaderController} class for switching scenes.
+     * @param event representing an {@code ActionEvent}.
+     */
     private void switchBack(ActionEvent event) {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -74,6 +113,9 @@ public class GameLoaderController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Initialization for the game-view scene.
+     */
     private void init() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-view.fxml"));
         try {
@@ -84,5 +126,4 @@ public class GameLoaderController implements Initializable {
             e.printStackTrace();
         }
     }
-
 }

@@ -15,9 +15,25 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
+/**
+ * A class which is used to display and animate images.
+ */
 public class ImageManager {
-    private final String[][] positionShiftValues;
+    /**
+     * A {@code String} array representing the amounts each {@code ImageView}
+     * has to move, in order to fully display the animation.
+     * The format is {@code indexOfImageViewer(out of the 4),yTranslateValue}.
+     */
+    private final String[][] positionShiftValues =
+            new String[][] {{"0,445", "1,445", "2,445", "3,445"},
+                            {"0,375", "1,375", "2,375", "3,375"},
+                            {"0,305", "1,305", "2,305", "3,305"},
+                            {"0,235", "1,235", "2,235", "3,235"}};
 
+    /**
+     * Logger for {@code ImageManager} class to display useful
+     * information while the program is running.
+     */
     final static Logger imageManagerLogger = LogManager.getLogger();
 
     /**
@@ -35,11 +51,6 @@ public class ImageManager {
      */
     public ImageManager(final AnchorPane pane) {
         this.mainPane = pane;
-        // FORMAT: indexOfImageViewer (out of the 4),yTranslateValue
-        this.positionShiftValues = new String[][] {{"0,445", "1,445", "2,445", "3,445"},
-                                                    {"0,375", "1,375", "2,375", "3,375"},
-                                                    {"0,305", "1,305", "2,305", "3,305"},
-                                                    {"0,235", "1,235", "2,235", "3,235"}};
     }
 
     /**
@@ -57,6 +68,14 @@ public class ImageManager {
         this.mainPane.getChildren().add(imgView);
     }
 
+    /**
+     * Creates and returns a {@code Translate} transition for a certain {@code ImageView},
+     * in a specific shift value, and duration provided.
+     * @param imageView the {@code ImageView} which we want to translate.
+     * @param duration the duration of the translation animation.
+     * @param shiftValue the number representing how much we want to shift the {@code ImageView}.
+     * @return a {@code TranslateTransition} of the {@code ImageView}.
+     */
     private TranslateTransition createTranslateTransition(ImageView imageView, Duration duration, double shiftValue) {
         TranslateTransition transition = new TranslateTransition();
 
@@ -67,6 +86,15 @@ public class ImageManager {
         return transition;
     }
 
+    /**
+     * This scales down a provided {@code Node}, to be able to finish the animation
+     * before trully removing the node. This way the user does not see the node
+     * removed, but it is still there but with a scale of {@code scaleValue}.
+     * @param node the {@code Node} we want to scale down.
+     * @param scaleValue the amount to which we want to scale down the {@code Node}.
+     * @return a {@code ScaleTransition} where the provided {@code Node} scales down
+     * to a specific scale value.
+     */
     private ScaleTransition createScaleTransition(CircleNode node, double scaleValue) {
         ScaleTransition scaleTransition = new ScaleTransition();
 
@@ -77,8 +105,16 @@ public class ImageManager {
         return scaleTransition;
     }
 
+    /**
+     * This method plays the whole animation, including the two {@code TranslateTransition} and the
+     * {@code ScaleTransition}.
+     * It creates a copy of the {@code removableNodes}, because the animation
+     * removes them from the {@code ArrayList}.
+     * @param removableNodes the container for the {@code Node}s we want to be removed.
+     * @param imageViews the {@code ImageView}s for the hands.
+     * @param gameBoard the main {@code GameBoard} on which are the {@code Node}s.
+     */
     public void playAnimation(ArrayList<CircleNode> removableNodes, ImageView[] imageViews, GridPane gameBoard) {
-        // creating a copy of the removableNodes, bcs the animation suddenly removes them from the ArrayList
         ArrayList<CircleNode> copy = (ArrayList<CircleNode>) removableNodes.clone();
         imageManagerLogger.debug("Removing {} nodes...", copy.size());
 
@@ -87,7 +123,6 @@ public class ImageManager {
         ScaleTransition[] scaleTransitions = new ScaleTransition[copy.size()];
         TranslateTransition[] downTranslateTransitions = new TranslateTransition[copy.size()];
 
-        // setting up animations
         for (int i = 0; i < copy.size(); i++) {
             var str = this.positionShiftValues[removableNodes.get(i).getRow()][removableNodes.get(i).getColumn()].split(",");
             final int imgViewIndex = Integer.parseInt(str[0]);
@@ -98,7 +133,6 @@ public class ImageManager {
             downTranslateTransitions[i] = createTranslateTransition(imageViews[imgViewIndex], Duration.seconds(1), shiftValue);
         }
 
-        // setting up sequential transition
         switch (copy.size()) {
             case 1 -> {
                 SequentialTransition sequentialTransition = new SequentialTransition(
@@ -110,7 +144,6 @@ public class ImageManager {
                         imageManagerLogger.info("Node removed!");
                 });
 
-                // playing the whole animation
                 sequentialTransition.play();
             }
             case 2 -> {
@@ -124,7 +157,6 @@ public class ImageManager {
                         imageManagerLogger.debug("Node removed!");
                 });
 
-                // playing the whole animation
                 sequentialTransition.play();
             }
             case 3 -> {
@@ -139,7 +171,6 @@ public class ImageManager {
                         imageManagerLogger.debug("Node removed!");
                 });
 
-                // playing the whole animation
                 sequentialTransition.play();
             }
             case 4 -> {
@@ -155,12 +186,9 @@ public class ImageManager {
                         imageManagerLogger.debug("Node removed!");
                 });
 
-                // playing the whole animation
                 sequentialTransition.play();
             }
             default -> imageManagerLogger.error("Invalid size of removableNodes!");
         }
-
-
     }
 }

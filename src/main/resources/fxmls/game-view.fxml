@@ -27,7 +27,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
-        <Button fx:id="doneButton" layoutX="174.0" layoutY="350.0" mnemonicParsing="false" onAction="#isPlayerDone" onMouseEntered="#onMouseEnter" text="Done" />
+        <Button fx:id="doneButton" layoutX="174.0" layoutY="350.0" mnemonicParsing="false" onAction="#isPlayerDone" text="Done" />
       <MenuBar fx:id="gameControllerMenu" layoutY="2.0" prefHeight="25.0" prefWidth="400.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">

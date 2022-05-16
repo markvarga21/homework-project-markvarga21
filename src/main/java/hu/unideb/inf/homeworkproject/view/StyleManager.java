@@ -48,7 +48,6 @@ public final class StyleManager {
      * @param player1Color player1's {@code Color}.
      * @param player2Color player2's {@code Color}.
      */
-    @SuppressWarnings("CheckStyle")
     public static void highlightNode(final int playerIndex, final Node node, final Color player1Color, final Color player2Color) {
         switch (playerIndex) {
             case 1 -> {
@@ -73,15 +72,5 @@ public final class StyleManager {
     public static void removeHighlight(final Node node) {
         Circle temp = (Circle) node;
         temp.setStrokeWidth(0);
-    }
-
-    /**
-     * Applies a hover style to a {@code Node}.
-     * NOT USED YET
-     * @param node the {@code Node} which is hovered.
-     */
-    public static void hoverStyle(Node node) {
-//        node.setStyle("-fx-background-color: black");
-//        styleManagerLogger.info("Hovered!");
     }
 }
