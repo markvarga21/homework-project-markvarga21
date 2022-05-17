@@ -3,9 +3,11 @@ package hu.unideb.inf.homeworkproject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * The main class for starting the application.
@@ -23,6 +25,11 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+
+        stage.setTitle("Stone game");
+        Image icon = new Image(String.valueOf(getClass().getResource("/images/game-logo.png")));
+        stage.getIcons().add(icon);
+
         stage.show();
     }
 

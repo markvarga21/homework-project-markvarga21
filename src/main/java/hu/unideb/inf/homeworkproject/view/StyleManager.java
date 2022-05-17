@@ -32,7 +32,7 @@ public final class StyleManager {
      * @param pane the {@code GridPane} which we want to get styled.
      */
     public static void styleGameBoard(final GridPane pane) {
-        @SuppressWarnings("CheckStyle") String style = """
+        String style = """
                         -fx-border-width: 2;
                         -fx-border-color: black;
                         -fx-effect: dropshadow(three-pass-box,  #0598ff, 10, 0, 0, 0);

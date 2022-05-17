@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.unideb.inf.homeworkproject.controller.GameController">
     <children>
@@ -27,7 +28,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
-        <Button fx:id="doneButton" layoutX="174.0" layoutY="350.0" mnemonicParsing="false" onAction="#isPlayerDone" text="Done" />
+        <Button fx:id="doneButton" layoutX="164.0" layoutY="349.0" mnemonicParsing="false" onAction="#isPlayerDone" prefHeight="37.0" prefWidth="67.0" style="-fx-background-color: #0598ff; -fx-border-radius: 3px;" text="Done" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
       <MenuBar fx:id="gameControllerMenu" layoutY="2.0" prefHeight="25.0" prefWidth="400.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
