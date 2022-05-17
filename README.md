@@ -75,11 +75,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="src/main/resources/images/login-screen-preview.JPG" alt="Logo" width="300" height="300">
+<img src="src/main/resources/images/login-screen-preview.JPG" alt="Logo">
 
 This JavaFX represents a simple 4 by 4 board game, where players have to take down stones (in this applications case circles) in order to win the game. There is a opportunity to save and load the game, exit the game, read about rules and about the creator.
 
-<img src="src/main/resources/images/game-preview.JPG" alt="Logo" width="300" height="300">
+<img src="src/main/resources/images/game-preview.JPG" alt="Logo">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
