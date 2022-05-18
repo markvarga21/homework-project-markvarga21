@@ -63,9 +63,9 @@ public class InfoViewController {
             for (int i = 1; i < playerStats.size()+1; i++) {
                 leaderBoard.append(i).append(". ")
                         .append(playerStats.get(i - 1).getPlayerName())
-                        .append(" ")
+                        .append(" - ")
                         .append(playerStats.get(i - 1).getPlayerScore())
-                        .append("\n");
+                        .append(" points\n");
             }
             this.infoText.setText(leaderBoard.toString());
         } else {

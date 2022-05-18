@@ -139,6 +139,11 @@ public class Server {
 
     public List<PlayerStat> queryLeaderboard() {
         serverLogger.info("Querying leadboard...");
-        return null;
+        this.handle = this.jdbi.open();
+        return this.handle.createQuery("SELECT * FROM leaderboard ORDER BY player_score DESC")
+                .map((rs, ctx) -> new PlayerStat(
+                        rs.getString("player_name"),
+                        rs.getInt("player_score")))
+                .list();
     }
 }
