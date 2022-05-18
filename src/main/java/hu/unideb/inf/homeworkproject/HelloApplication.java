@@ -29,6 +29,7 @@ public class HelloApplication extends Application {
         Image icon = new Image(String.valueOf(getClass().getResource("/images/game-logo.png")));
         stage.getIcons().add(icon);
 
+        stage.setResizable(false);
         stage.show();
     }
 

@@ -57,6 +57,8 @@ public class GameLoaderController implements Initializable {
      */
     final static Logger gameLoaderControllerLogger = LogManager.getLogger();
 
+    private Game currentGame;
+
     /**
      * This initializes everything before loading the scene.
      * @param url for resolving relative paths for the root object.
@@ -97,8 +99,7 @@ public class GameLoaderController implements Initializable {
         this.gameController.setPlayer1Color(Color.web(this.selectedGame.getPlayer1Color()));
         this.gameController.setPlayer2Color(Color.web(this.selectedGame.getPlayer2Color()));
 
-        gameLoaderControllerLogger.debug("Switching back to main scene with the GameState of: ");
-        gameLoaderControllerLogger.trace(this.selectedGame.getGameBoard());
+        gameLoaderControllerLogger.debug("Switching back to main scene with the GameState of: {}", this.selectedGame.getGameBoard());
         switchBack(event);
     }
 
@@ -111,6 +112,30 @@ public class GameLoaderController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setCurrentGame(Game game) {
+        this.currentGame = game;
+    }
+
+    @FXML
+    public void backToGameView(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-view.fxml"));
+        try {
+            this.root = fxmlLoader.load();
+
+            GameController gameController = fxmlLoader.getController();
+            // maskepp kitoroli es ujat kezd
+            gameController.replaceNodesWithLoaded(this.currentGame);
+            gameController.getGameModel().replaceGameInfosWithLoaded(this.currentGame);
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

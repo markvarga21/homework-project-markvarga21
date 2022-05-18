@@ -41,24 +41,16 @@
                   <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Save game" />
                   <MenuItem mnemonicParsing="false" onAction="#loadGame" text="Load game" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#exitGame" text="Exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="About">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Rules">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Leaderboard">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
+            <Menu mnemonicParsing="false" text="Other">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#loadAbout" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadRules" text="Rules" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadLeaderboard" text="Leaderboard" />
+               </items>
             </Menu>
         </menus>
       </MenuBar>

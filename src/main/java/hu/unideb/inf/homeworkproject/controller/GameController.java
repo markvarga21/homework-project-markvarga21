@@ -98,10 +98,14 @@ public class GameController implements Initializable {
      */
     private Parent root;
 
+    private Parent infoRoot;
+
     /**
      * The main {@code GameLoaderController} for further invocations.
      */
     private GameLoaderController gameLoaderController;
+
+    private InfoViewController infoViewController;
 
     /**
      * A {@code MenuBar} used to identify the current stage for
@@ -194,6 +198,14 @@ public class GameController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/fxmls/info-view.fxml"));
+        try {
+            this.infoRoot = fxmlLoader2.load();
+            this.infoViewController = fxmlLoader2.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -225,6 +237,11 @@ public class GameController implements Initializable {
      */
     public void replaceNodesWithLoaded(final Game gameToLoad) {
         clearBoard();
+
+        this.whosComingLabel.setText(String.valueOf(gameToLoad.getWhoWasGoingNext()).equals("1")
+                ? "It is " + gameToLoad.getPlayer1Name() + "'s turn now!"
+                : "It is " + gameToLoad.getPlayer2Name() + "'s turn now!");
+
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
             for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
                 if (gameToLoad.toStateArray()[i][j] == 1) {
@@ -369,6 +386,57 @@ public class GameController implements Initializable {
         Client client = new Client(this.gameModel);
         var ls = client.returnSavedGames();
         this.gameLoaderController.setSavedGamesList(ls);
+        this.gameLoaderController.setCurrentGame(getCurrentGameInfos());
+    }
+
+    @FXML
+    public void loadAbout() {
+        gameControllerLogger.info("Loading about...");
+
+        this.infoViewController.displayAbout(getCurrentGameInfos());
+
+        Stage stage = (Stage)this.gameControllerMenu.getScene().getWindow();
+        Scene scene = new Scene(infoRoot);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void loadRules() {
+        gameControllerLogger.info("Loading rules...");
+
+        this.infoViewController.displayRules(getCurrentGameInfos());
+
+        Stage stage = (Stage)this.gameControllerMenu.getScene().getWindow();
+        Scene scene = new Scene(infoRoot);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void loadLeaderboard() {
+        gameControllerLogger.info("Loading leaderboard...");
+
+        Client client = new Client();
+
+        this.infoViewController.displayLeaderboard(client.returnLeaderboard(), getCurrentGameInfos());
+
+        Stage stage = (Stage)this.gameControllerMenu.getScene().getWindow();
+        Scene scene = new Scene(infoRoot);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private Game getCurrentGameInfos() {
+        StringBuilder gameBoard = new StringBuilder();
+        for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
+            for (int j = 0; j < GameModel.GAME_BOARD_SIZE; j++) {
+                gameBoard.append(this.gameModel.getGameBoardStatus()[i][j]);
+            }
+        }
+        return new Game(this.gameModel.getPlayer1Name(), this.gameModel.getPlayer1Color(),
+                this.gameModel.getPlayer2Name(), this.gameModel.getPlayer2Color(),
+                gameBoard.toString(), this.gameModel.getWhosComingNext());
     }
 
     /**
@@ -411,6 +479,10 @@ public class GameController implements Initializable {
      */
     public void setPlayer1Color(Color player1Color) {
         this.player1Color = player1Color;
+    }
+
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
     }
 
     /**

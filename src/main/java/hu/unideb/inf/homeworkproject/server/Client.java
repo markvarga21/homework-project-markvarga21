@@ -1,6 +1,7 @@
 package hu.unideb.inf.homeworkproject.server;
 
 import hu.unideb.inf.homeworkproject.model.GameModel;
+import hu.unideb.inf.homeworkproject.model.PlayerStat;
 import javafx.scene.control.Alert;
 
 import org.apache.logging.log4j.LogManager;
@@ -76,6 +77,8 @@ public class Client {
         clientLogger.debug("Updating player score in SQL server leaderboard!");
         this.server.increaseScore(playerName);
     }
+
+    public List<PlayerStat> returnLeaderboard() { return this.server.queryLeaderboard(); }
 
     /**
      * A method which returns the saved games using {@code Server}

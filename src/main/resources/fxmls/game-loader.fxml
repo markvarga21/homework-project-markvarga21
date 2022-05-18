@@ -3,10 +3,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="gameLoaderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.unideb.inf.homeworkproject.controller.GameLoaderController">
    <children>
       <ListView fx:id="savedGamesList" layoutX="14.0" layoutY="14.0" prefHeight="337.0" prefWidth="621.0" />
-      <Button layoutX="304.0" layoutY="361.0" mnemonicParsing="false" onAction="#loadGame" text="Load" />
+      <Button layoutX="335.0" layoutY="358.0" mnemonicParsing="false" onAction="#loadGame" style="-fx-background-color: #0598ff; -fx-border-radius: 3px;" text="Load" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button fx:id="backButton" layoutX="260.0" layoutY="358.0" mnemonicParsing="false" onAction="#backToGameView" style="-fx-background-color: #0598ff; -fx-border-radius: 3px;" text="Back" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

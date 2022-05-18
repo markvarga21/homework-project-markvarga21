@@ -1,5 +1,6 @@
 package hu.unideb.inf.homeworkproject.server;
 
+import hu.unideb.inf.homeworkproject.model.PlayerStat;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +37,7 @@ public class Server {
      * {@code Jdbi} connection with the database.
      */
     public Server() {
-        this.jdbi  = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11485916", "sql11485916", "HQtvDKAqR5");
+        this.jdbi  = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11493376", "sql11493376", "qvMw8ZhPl4");
     }
 
     /**
@@ -80,11 +81,9 @@ public class Server {
      */
     private boolean isNewPlayer(final String playerName) {
         this.handle = this.jdbi.open();
-        final boolean doesPlayerExist = this.handle
+        return this.handle
                 .createQuery("SELECT * FROM leaderboard WHERE player_name = :name")
                 .bind("name", playerName).mapTo(String.class).list().isEmpty();
-        this.handle.close();
-        return doesPlayerExist;
     }
 
     /**
@@ -136,5 +135,10 @@ public class Server {
                 .list();
         this.handle.close();
         return savedGames;
+    }
+
+    public List<PlayerStat> queryLeaderboard() {
+        serverLogger.info("Querying leadboard...");
+        return null;
     }
 }
