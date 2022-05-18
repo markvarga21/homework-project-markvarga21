@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -143,6 +144,13 @@ public class GameController implements Initializable {
      * {@code ImageView}.
      */
     private ImageView[] handImageViewHolder;
+
+    /**
+     * A {@code Label} for displaying the name of the
+     * player who is coming next.
+     */
+    @FXML
+    private Label whosComingLabel;
 
     /**
      * This initializes everything before loading the scene.
@@ -277,11 +285,14 @@ public class GameController implements Initializable {
      */
     @FXML
     public void isPlayerDone(final ActionEvent e) {
-        gameControllerLogger.info("Hello from done!");
+        gameControllerLogger.info("Player is done!");
+
+        this.whosComingLabel.setText(String.valueOf(this.gameModel.getWhosComingNext()).equals("1")
+                                                    ? "It is " + this.gameModel.getPlayer2Name() + "'s turn now!"
+                                                    : "It is " + this.gameModel.getPlayer1Name() + "'s turn now!");
 
         if (this.validator.isValidSelection()) {
             removeNodes();
-
             this.gameModel.switchPlayer();
             this.gameModel.clearDeletions();
 
@@ -384,6 +395,14 @@ public class GameController implements Initializable {
      */
     public Color getPlayer1Color() {
         return this.player1Color;
+    }
+
+    /**
+     * Getter for {@code getWhosComingLabel} Label.
+     * @return the {@code Label} for the getWhosComing label.
+     */
+    public Label getWhosComingLabel() {
+        return this.whosComingLabel;
     }
 
     /**

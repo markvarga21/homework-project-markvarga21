@@ -86,18 +86,28 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void startGame(ActionEvent event) {
-        this.gameController.getGameModel().setPlayer1Name(this.player1NameTextField.getText());
-        this.gameController.getGameModel().setPlayer2Name(this.player2NameTextField.getText());
-        this.gameController.getGameModel().setPlayer1Color(this.player1ColorPicker.getValue().toString());
-        this.gameController.getGameModel().setPlayer2Color(this.player2ColorPicker.getValue().toString());
+        if (this.player1NameTextField.getText().isEmpty() && this.player2NameTextField.getText().isEmpty()) {
+            this.gameController.getGameModel().feedBackUser("No player names provided!", Alert.AlertType.WARNING);
+        } else if (this.player1NameTextField.getText().isEmpty()) {
+            this.gameController.getGameModel().feedBackUser("First players name is empty!", Alert.AlertType.WARNING);
+        } else if (this.player2NameTextField.getText().isEmpty()) {
+            this.gameController.getGameModel().feedBackUser("Second players name is empty!", Alert.AlertType.WARNING);
+        } else {
+            this.gameController.getGameModel().setPlayer1Name(this.player1NameTextField.getText());
+            this.gameController.getGameModel().setPlayer2Name(this.player2NameTextField.getText());
+            this.gameController.getGameModel().setPlayer1Color(this.player1ColorPicker.getValue().toString());
+            this.gameController.getGameModel().setPlayer2Color(this.player2ColorPicker.getValue().toString());
 
-        loginControllerLogger.info("player1Color: {}", this.gameController.getGameModel().getPlayer1Color());
-        loginControllerLogger.info("player2Color: {}", this.gameController.getGameModel().getPlayer2Color());
+            loginControllerLogger.info("player1Color: {}", this.gameController.getGameModel().getPlayer1Color());
+            loginControllerLogger.info("player2Color: {}", this.gameController.getGameModel().getPlayer2Color());
 
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            this.gameController.getWhosComingLabel().setText("It is " + this.player2NameTextField.getText() + "'s turn now!");
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     /**
