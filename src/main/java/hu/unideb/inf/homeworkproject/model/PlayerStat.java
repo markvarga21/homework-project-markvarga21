@@ -13,15 +13,22 @@ public class PlayerStat {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
     public int getPlayerScore() {
         return playerScore;
     }
 
-    public void setPlayerScore(int playerScore) {
-        this.playerScore = playerScore;
+    @Override
+    public String toString() {
+        return "Player name: " + this.playerName
+                + "\nPlayer score: " + this.playerScore;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PlayerStat playerStat) {
+            return playerStat.getPlayerName().equals(this.playerName)
+                    && playerStat.getPlayerScore() == this.playerScore;
+        }
+        return false;
     }
 }

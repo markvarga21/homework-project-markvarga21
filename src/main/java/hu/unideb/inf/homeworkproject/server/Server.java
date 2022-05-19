@@ -1,16 +1,24 @@
 package hu.unideb.inf.homeworkproject.server;
 
 import hu.unideb.inf.homeworkproject.model.PlayerStat;
+import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * A class, which manipulates on data along out application, ie querying,
@@ -52,8 +60,32 @@ public class Server {
         } catch (SQLException e) {
             serverLogger.error("Exception thrown: {}", e.getMessage());
         } finally {
-            serverLogger.error("Something went wrong, loading from config file backup!");
-            this.jdbi = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11493376", "sql11493376", "qvMw8ZhPl4");
+            serverLogger.error("Something went wrong when connecting to the database, loading from config file backup!");
+            URL fileURL = getClass().getResource("/server/backup-config.txt");
+            try {
+                File configBackup = new File(fileURL.toURI());
+                try (var scanner = new Scanner(configBackup)) {
+                    String unprocessedContent = scanner.nextLine();
+
+                    if (!unprocessedContent.equals("noItem")) {
+                        String[] components = unprocessedContent.split(" ");
+                        String url = components[0];
+                        String user = components[1];
+                        String password = components[2];
+                        this.jdbi = Jdbi.create(url, user, password);
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle(null);
+                        alert.setHeaderText(null);
+                        alert.setContentText("Backup server configuration not found, please set it up inside the DEV menu!");
+                        alert.showAndWait();
+                    }
+                } catch (FileNotFoundException e) {
+                    serverLogger.error(e.getMessage());
+                }
+            } catch (URISyntaxException e) {
+                serverLogger.error(e.getMessage());
+            }
         }
     }
 
@@ -71,7 +103,7 @@ public class Server {
                         .execute();
                 serverLogger.debug("New player added: " + playerName);
             } else {
-                var optPrevScore = this.handle
+                var optPrevScore = handle
                         .createQuery("SELECT player_score FROM leaderboard WHERE player_name = :name")
                         .bind("name", playerName)
                         .mapTo(Integer.class)
@@ -181,8 +213,7 @@ public class Server {
     public List<PlayerStat> queryLeaderboard() {
         try (var handle = this.jdbi.open()) {
             serverLogger.info("Querying leadboard...");
-            this.handle = this.jdbi.open();
-            return this.handle.createQuery("SELECT * FROM leaderboard ORDER BY player_score DESC")
+            return handle.createQuery("SELECT * FROM leaderboard ORDER BY player_score DESC")
                     .map((rs, ctx) -> new PlayerStat(
                             rs.getString("player_name"),
                             rs.getInt("player_score")))

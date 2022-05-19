@@ -186,4 +186,16 @@ public class Game {
                 + "Player 2 name: " + this.player2Name + " with the color " + this.player2Color + "\n"
                 + "GameBoard: \n" + gameMap;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Game game) {
+            return game.getPlayer1Name().equals(this.player1Name)
+                    && game.getPlayer1Color().equals(this.player1Color)
+                    && game.getPlayer2Name().equals(this.player2Name)
+                    && game.getPlayer2Color().equals(this.player2Color)
+                    && game.getWhoWasGoingNext() == this.whoWasGoingNext;
+        }
+        return false;
+    }
 }
