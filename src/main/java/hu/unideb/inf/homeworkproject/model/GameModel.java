@@ -313,8 +313,8 @@ public class GameModel {
      */
     public String getWinner() {
         return switch (this.whosComingNext) {
-            case -1 -> this.player1Name;
-            case 1 -> this.player2Name;
+            case -1 -> this.player2Name;
+            case 1 -> this.player1Name;
             default -> "NoOne";
         };
     }
