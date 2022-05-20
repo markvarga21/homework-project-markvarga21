@@ -1,0 +1,1 @@
+jdbc:mysql://azure-swe-server.mysql.database.azure.com:3306/swe markvarga21 SWEProject_2145

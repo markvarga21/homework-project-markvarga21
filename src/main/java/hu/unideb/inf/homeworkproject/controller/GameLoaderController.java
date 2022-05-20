@@ -86,13 +86,10 @@ public class GameLoaderController implements Initializable {
     public void loadGame(ActionEvent event) {
         gameLoaderControllerLogger.debug("Loading FXML, and initializing gameModel...");
         init();
-//
-//        // clearing the board before loading
-//        this.gameController.clearBoard();
 
         this.gameController.replaceNodesWithLoaded(this.selectedGame);
         this.gameModel.replaceGameInfosWithLoaded(this.selectedGame);
-        // setting back colors
+
         gameLoaderControllerLogger.info("P1color: {}", this.selectedGame.getPlayer1Color());
         gameLoaderControllerLogger.info("P2color: {}", this.selectedGame.getPlayer2Color());
 
@@ -114,10 +111,20 @@ public class GameLoaderController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Sets the current game to a {@code Game} passed inside the parameters.
+     * @param game the {@code Game} we want to set to.
+     */
     public void setCurrentGame(Game game) {
         this.currentGame = game;
     }
 
+    /**
+     * A method for loading back the game-view, and also reloading the
+     * current game infos, because otherwise it clears all the infos
+     * and starts a new plain game.
+     * @param event representing an {@code ActionEvent}.
+     */
     @FXML
     public void backToGameView(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/game-view.fxml"));
@@ -125,7 +132,6 @@ public class GameLoaderController implements Initializable {
             this.root = fxmlLoader.load();
 
             GameController gameController = fxmlLoader.getController();
-            // maskepp kitoroli es ujat kezd
             gameController.replaceNodesWithLoaded(this.currentGame);
             gameController.getGameModel().replaceGameInfosWithLoaded(this.currentGame);
 

@@ -17,16 +17,36 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * A class for controlling the info view scene.
+ */
 public class InfoViewController {
+    /**
+     * A {@code Text} field where information is shown.
+     */
     @FXML
     private Text infoText;
 
+    /**
+     * A {@code Logger} for {@code InfoViewController} class.
+     */
     final static Logger gameLoaderControllerLogger = LogManager.getLogger();
 
+    /**
+     * A {@code Parent} root for the main game.
+     */
     private Parent gameRoot;
 
+    /**
+     * A field for storing the current game's data.
+     * It is refreshed on every menu click.
+     */
     private Game gameStatusBeforeMenu;
 
+    /**
+     * A method for displaying the Rules inside the {@code infoText} text field.
+     * @param game the current {@code Game}.
+     */
     public void displayRules(Game game) {
         this.gameStatusBeforeMenu = game;
         gameLoaderControllerLogger.info("Displaying rules.");
@@ -42,6 +62,10 @@ public class InfoViewController {
         this.infoText.setText(rulesText);
     }
 
+    /**
+     * A method for displaying information about the game and its creator.
+     * @param game the current {@code Game}.
+     */
     public void displayAbout(Game game) {
         String aboutText = """
                 This is a simple game made in JavaFX,
@@ -55,6 +79,12 @@ public class InfoViewController {
         this.infoText.setText(aboutText);
     }
 
+    /**
+     * A method for displaying the leaderboard.
+     * @param playerStats a {@code List} of {@code PlayerStat}s which
+     * represents the names and the scores of the players.
+     * @param game the current {@code Game}.
+     */
     public void displayLeaderboard(List<PlayerStat> playerStats, Game game) {
         this.gameStatusBeforeMenu = game;
         if (playerStats != null) {
@@ -74,6 +104,12 @@ public class InfoViewController {
         }
     }
 
+    /**
+     * A method for loading back the main game, and its current game's
+     * information, because otherwise it clears the game data and starts
+     * a plain new game.
+     * @param event representing an {@code ActionEvent}.
+     */
     @FXML
     public void backToGame(ActionEvent event) {
         gameLoaderControllerLogger.info("Going back to game...");
@@ -83,7 +119,7 @@ public class InfoViewController {
             this.gameRoot = fxmlLoader.load();
 
             GameController gameController = fxmlLoader.getController();
-            // maskepp kitoroli es ujat kezd
+
             gameController.replaceNodesWithLoaded(this.gameStatusBeforeMenu);
             gameController.getGameModel().replaceGameInfosWithLoaded(this.gameStatusBeforeMenu);
 

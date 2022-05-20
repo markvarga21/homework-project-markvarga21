@@ -1,13 +1,11 @@
 package hu.unideb.inf.homeworkproject.server;
 
 import hu.unideb.inf.homeworkproject.model.PlayerStat;
-import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +17,7 @@ class ServerTest {
     @BeforeEach
     void initServerConnection() {
         this.server = new Server();
-        this.jdbi = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11493376", "sql11493376", "qvMw8ZhPl4");
+        this.jdbi = Jdbi.create("jdbc:mysql://azure-swe-server.mysql.database.azure.com:3306/swe", "markvarga21", "SWEProject_2145");
     }
 
     @Test
@@ -60,8 +58,6 @@ class ServerTest {
                             rs.getInt("whoWasComingNext")))
                     .findOne()
                     .get();
-            System.out.println("ACTUAL: " + actual);
-            System.out.println("EXPECTED: " + expected);
 
             assertEquals(expected, actual);
 

@@ -32,16 +32,13 @@ public class Server {
     private Jdbi jdbi;
 
     /**
-     * A {@code Handle} object which handles data manipulation
-     * in the application.
-     */
-    private Handle handle;
-
-    /**
      * A {@code Logger} for the {@code Server} class.
      */
    final static Logger serverLogger = LogManager.getLogger();
 
+    /**
+     * Timeout limit for server connection.
+     */
    private final int timeoutLimit = 50000;
 
     /**
@@ -49,9 +46,9 @@ public class Server {
      * {@code Jdbi} connection with the database.
      */
     public Server() {
-        try (var connection = DriverManager.getConnection("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11493376", "sql11493376", "qvMw8ZhPl4")) {
+        try (var connection = DriverManager.getConnection("jdbc:mysql://azure-swe-server.mysql.database.azure.com:3306/swe", "markvarga21", "SWEProject_2145")) {
             if (connection.isValid(this.timeoutLimit)) {
-                this.jdbi = Jdbi.create("jdbc:mysql://sql11.freesqldatabase.com:3306/sql11493376", "sql11493376", "qvMw8ZhPl4");
+                this.jdbi = Jdbi.create("jdbc:mysql://azure-swe-server.mysql.database.azure.com:3306/swe", "markvarga21", "SWEProject_2145");
                 serverLogger.info("Successfully connected to database!");
             } else {
                 serverLogger.error("Connection timed out!");
@@ -118,12 +115,6 @@ public class Server {
                     serverLogger.debug("Increased the point of " + playerName);
                 }
             }
-        } finally {
-            if (handle != null) {
-                handle.close();
-            } else {
-                serverLogger.error("Handle is null when invoking increaseScore(String) method!");
-            }
         }
     }
 
@@ -139,12 +130,6 @@ public class Server {
             return handle
                     .createQuery("SELECT * FROM leaderboard WHERE player_name = :name")
                     .bind("name", playerName).mapTo(String.class).list().isEmpty();
-        } finally {
-            if (handle != null) {
-                handle.close();
-            } else {
-                serverLogger.error("Handle is null when invoking isNewPlayer(String) method!");
-            }
         }
     }
 
@@ -175,12 +160,6 @@ public class Server {
 
             serverLogger.trace("Saved game with properties: \n Date: {} \n Player 1 name: {} \n Player 2 name: {} \n Game board states: {} \n Who was coming next: {}",
                     dateWhenPlayed, player1Name,player2Name, gameBoard, whoWasGoingNext);
-        } finally {
-            if (handle != null) {
-                handle.close();
-            } else {
-                serverLogger.error("Handle is null when invoking addSavedGame(Game) method!");
-            }
         }
     }
 
@@ -201,15 +180,15 @@ public class Server {
                             rs.getString("gameBoardState"),
                             rs.getInt("whoWasComingNext")))
                     .list();
-        } finally {
-            if (handle != null) {
-                handle.close();
-            } else {
-                serverLogger.error("Handle is null when invoking querySavedGames() method!");
-            }
         }
     }
 
+    /**
+     * A method for querying the {@code Leaderboard} from the server, and
+     * converting it to a {@code List}.
+     * @return a {@code List} of {@code PlayerStat}s, containing the
+     * players names and scores.
+     */
     public List<PlayerStat> queryLeaderboard() {
         try (var handle = this.jdbi.open()) {
             serverLogger.info("Querying leadboard...");
@@ -218,12 +197,6 @@ public class Server {
                             rs.getString("player_name"),
                             rs.getInt("player_score")))
                     .list();
-        } finally {
-            if (handle != null) {
-                handle.close();
-            } else {
-                serverLogger.error("Handle is null when invoking queryLeaderboard() method!");
-            }
         }
     }
 }

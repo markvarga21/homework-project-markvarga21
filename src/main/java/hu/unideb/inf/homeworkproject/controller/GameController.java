@@ -98,6 +98,9 @@ public class GameController implements Initializable {
      */
     private Parent root;
 
+    /**
+     * The {@code Parent} root of the info scene/view.
+     */
     private Parent infoRoot;
 
     /**
@@ -105,6 +108,9 @@ public class GameController implements Initializable {
      */
     private GameLoaderController gameLoaderController;
 
+    /**
+     * A controller for the image view scene.
+     */
     private InfoViewController infoViewController;
 
     /**
@@ -171,7 +177,7 @@ public class GameController implements Initializable {
         this.nodeArray = new Node[GameModel.GAME_BOARD_SIZE][GameModel.GAME_BOARD_SIZE];
         this.gameModel = new GameModel();
         this.validator = new Validator(this.gameModel);
-        this.imageManager = new ImageManager(this.mainPane);
+        this.imageManager = new ImageManager();
 
         this.player1Color = Color.BLACK;
         this.player2Color = Color.BLACK;
@@ -317,8 +323,6 @@ public class GameController implements Initializable {
             this.gameModel.feedBackUser("Invalid selection!", Alert.AlertType.WARNING);
         }
         if (this.validator.checkWinner()) {
-//            correct this, bcs it plays in infinity
-            this.imageManager.playGif(String.valueOf(getClass().getResource("/images/celebration.gif")), 0, 0);
             displayWinner();
             Client client = new Client(this.gameModel);
             client.updateLeaderBoard(this.gameModel.getWinner());
@@ -389,6 +393,9 @@ public class GameController implements Initializable {
         this.gameLoaderController.setCurrentGame(getCurrentGameInfos());
     }
 
+    /**
+     * A method which loads the About view scene.
+     */
     @FXML
     public void loadAbout() {
         gameControllerLogger.info("Loading about...");
@@ -401,6 +408,9 @@ public class GameController implements Initializable {
         stage.show();
     }
 
+    /**
+     * A method which loads the Rules view scene.
+     */
     @FXML
     public void loadRules() {
         gameControllerLogger.info("Loading rules...");
@@ -413,6 +423,9 @@ public class GameController implements Initializable {
         stage.show();
     }
 
+    /**
+     * A method which loads the Leaderboard view scene.
+     */
     @FXML
     public void loadLeaderboard() {
         gameControllerLogger.info("Loading leaderboard...");
@@ -427,6 +440,12 @@ public class GameController implements Initializable {
         stage.show();
     }
 
+    /**
+     * A method which return the currently playing
+     * game's data in order to be stored for other scenes.
+     * @return a {@code Game} object which represents the
+     * current state and information of the game.
+     */
     private Game getCurrentGameInfos() {
         StringBuilder gameBoard = new StringBuilder();
         for (int i = 0; i < GameModel.GAME_BOARD_SIZE; i++) {
@@ -479,10 +498,6 @@ public class GameController implements Initializable {
      */
     public void setPlayer1Color(Color player1Color) {
         this.player1Color = player1Color;
-    }
-
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
     }
 
     /**
