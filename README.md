@@ -111,7 +111,11 @@ Here is a list about the prerequisites you need before running the app:
    ```sh
    git clone https://github.com/INBPM0420L/homework-project-markvarga21.git
    ```
-2. Run the app using Maven
+2. Install the app
+    ```
+   mvn clean install
+    ```
+3. Run the app using Maven
    ```sh
    mvn exec:java
    ```
