@@ -244,6 +244,9 @@ public class GameController implements Initializable {
     public void replaceNodesWithLoaded(final Game gameToLoad) {
         clearBoard();
 
+        this.player1Color = Color.valueOf(gameToLoad.getPlayer1Color());
+        this.player2Color = Color.valueOf(gameToLoad.getPlayer2Color());
+
         this.whosComingLabel.setText(String.valueOf(gameToLoad.getWhoWasGoingNext()).equals("1")
                 ? "It is " + gameToLoad.getPlayer1Name() + "'s turn now!"
                 : "It is " + gameToLoad.getPlayer2Name() + "'s turn now!");

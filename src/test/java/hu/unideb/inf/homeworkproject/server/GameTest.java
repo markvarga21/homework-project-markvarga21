@@ -17,11 +17,6 @@ class GameTest {
     }
 
     @Test
-    void getDateWhenPlayed() {
-        assertEquals(Instant.now(), this.game.getDateWhenPlayed());
-    }
-
-    @Test
     void getPlayer1Name() {
         assertEquals("Player1", this.game.getPlayer1Name());
     }

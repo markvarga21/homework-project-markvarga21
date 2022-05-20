@@ -22,22 +22,14 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxmls/login-view.fxml"));
+        Image icon = new Image(String.valueOf(getClass().getResource("/images/game-logo.png")));
+
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
 
         stage.setTitle("Stone game");
-        Image icon = new Image(String.valueOf(getClass().getResource("/images/game-logo.png")));
         stage.getIcons().add(icon);
-
+        stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-    }
-
-    /**
-     * Launching the application.
-     * @param args optional command-line arguments.
-     */
-    public static void main(String[] args) {
-        launch();
     }
 }
