@@ -50,12 +50,6 @@ public class GameController implements Initializable {
     private GridPane gameBoard;
 
     /**
-     * The main {@code AnchorPane} of the application.
-     */
-    @FXML
-    private AnchorPane mainPane;
-
-    /**
      * A 2D array of {@code Node}s for easier {@code Node}
      * reference index identification.
      */

@@ -4,9 +4,7 @@ import hu.unideb.inf.homeworkproject.model.CircleNode;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -78,6 +76,7 @@ public class ImageManager {
      * {@code ScaleTransition}.
      * It creates a copy of the {@code removableNodes}, because the animation
      * removes them from the {@code ArrayList}.
+     * It also uses arrays of animations not to repeat code.
      * @param removableNodes the container for the {@code Node}s we want to be removed.
      * @param imageViews the {@code ImageView}s for the hands.
      * @param gameBoard the main {@code GameBoard} on which are the {@code Node}s.
@@ -86,7 +85,6 @@ public class ImageManager {
         ArrayList<CircleNode> copy = (ArrayList<CircleNode>) removableNodes.clone();
         imageManagerLogger.debug("Removing {} nodes...", copy.size());
 
-        // I use this, not to duplicate that much repetitive code
         TranslateTransition[] upTranslateTransitions = new TranslateTransition[copy.size()];
         ScaleTransition[] scaleTransitions = new ScaleTransition[copy.size()];
         TranslateTransition[] downTranslateTransitions = new TranslateTransition[copy.size()];

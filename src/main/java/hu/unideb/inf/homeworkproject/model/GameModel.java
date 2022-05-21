@@ -174,7 +174,6 @@ public class GameModel {
      */
     public void startNewGame() {
         mainLogger.info("Starting new game...");
-        // we should prompt the user first...
         this.clickedCirclesCount = 0;
         this.removableNodes.clear();
         for (int i = 0; i < GAME_BOARD_SIZE; i++) {

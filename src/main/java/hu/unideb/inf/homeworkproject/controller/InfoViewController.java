@@ -64,6 +64,8 @@ public class InfoViewController {
 
     /**
      * A method for displaying information about the game and its creator.
+     * It also updates/stores the previous game infos before going back,
+     * because otherwise it will be flushed.
      * @param game the current {@code Game}.
      */
     public void displayAbout(Game game) {
@@ -74,7 +76,7 @@ public class InfoViewController {
                 
                 Made by: Varga József Márk
                 """;
-        this.gameStatusBeforeMenu = game; // mivel a backnel egy uj controllert hoz be uj adatokkal, nem a regikkel
+        this.gameStatusBeforeMenu = game;
         gameLoaderControllerLogger.info("Displaying about.");
         this.infoText.setText(aboutText);
     }
@@ -128,7 +130,7 @@ public class InfoViewController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            gameLoaderControllerLogger.error(e.getMessage());
         }
     }
 }

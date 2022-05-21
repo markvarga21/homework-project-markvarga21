@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
-
-    private static final Logger mainLogger = LogManager.getLogger();
-
     @BeforeAll
     static void testObjectConstruction() {
         GameModel gameModel = new GameModel();
@@ -58,10 +55,6 @@ class GameModelTest {
         assertFalse(gameModel.getRemovableNodes().contains(node));
         assertEquals(0, gameModel.getClickedCirclesCount());
     }
-
-
-    // azok am eotdusok amik hivnak mas metodusokat, eleg osszessegeben egyszer tesztelni egy helyen, vagy minden hivasi helyen kell?
-    // pl GameModel.save()
 
     @Test
     void startNewGame() {
@@ -124,11 +117,11 @@ class GameModelTest {
         gameModel.setPlayer2Name("Jenny");
 
         gameModel.setWhosComingNext(-1);
-        assertEquals("John", gameModel.getWinner());
+        assertEquals("Jenny", gameModel.getWinner());
 
 
         gameModel.setWhosComingNext(1);
-        assertEquals("Jenny", gameModel.getWinner());
+        assertEquals("John", gameModel.getWinner());
 
 
         gameModel.setWhosComingNext(5);

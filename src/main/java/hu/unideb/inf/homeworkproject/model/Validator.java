@@ -86,7 +86,6 @@ public class Validator {
                         .mapToInt(CircleNode::getRow)
                         .sum();
 
-                // printing out values
                 validatorLogger.trace("minRow: " + minRow
                                 + ", maxRow: " + maxRow
                                 + ", wannaBeSum: " + wannaBeSum

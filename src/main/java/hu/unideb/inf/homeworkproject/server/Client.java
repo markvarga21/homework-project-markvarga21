@@ -57,6 +57,7 @@ public class Client {
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
                 game += this.gameModel.getGameBoardStatus()[i][j];
+
         this.server.addSavedGame(new Game(Instant.now(),
                                         this.gameModel.getPlayer1Name(),
                                         this.gameModel.getPlayer1Color(),

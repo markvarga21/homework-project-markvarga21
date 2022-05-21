@@ -75,7 +75,7 @@ public class LoginController implements Initializable {
             this.root = fxmlLoader.load();
             this.gameController = fxmlLoader.getController();
         } catch (IOException e) {
-            e.printStackTrace();
+            loginControllerLogger.error(e.getMessage());
         }
     }
 

@@ -57,10 +57,15 @@ public class GameLoaderController implements Initializable {
      */
     final static Logger gameLoaderControllerLogger = LogManager.getLogger();
 
+    /**
+     * A {@code Game} representing the current game.
+     */
     private Game currentGame;
 
     /**
-     * This initializes everything before loading the scene.
+     * This initializes everything before loading the scene. Here is a
+     * property and a listener too, so we don't have to verify
+     * and assign it every time.
      * @param url for resolving relative paths for the root object.
      * @param resourceBundle used to localize the root object.
      */
@@ -140,7 +145,7 @@ public class GameLoaderController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            gameLoaderControllerLogger.error(e.getMessage());
         }
     }
 
@@ -154,7 +159,7 @@ public class GameLoaderController implements Initializable {
             this.gameController = fxmlLoader.getController();
             this.gameModel = this.gameController.getGameModel();
         } catch (IOException e) {
-            e.printStackTrace();
+            gameLoaderControllerLogger.error(e.getMessage());
         }
     }
 }
